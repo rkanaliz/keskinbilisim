@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zekâ Atölyesi - Keskin Bilişim BTY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px 0 rgba(79, 70, 229, 0.4); /* İndigo Parlama */
+        }
+        .glass-header {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        body { background-color: #0f172a; color: #e2e8f0; }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-indigo-500 selection:text-white font-sans">
+
+    <!-- ARKA PLAN (İndigo/Mor Uzay Teması) -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-purple-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-blue-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass-header fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 group">
+                        <i class="fa-solid fa-microchip text-indigo-400 text-3xl group-hover:rotate-12 transition"></i>
+                        <span class="font-bold text-xl tracking-wider text-gray-100">Keskin<span class="text-indigo-400">Bilişim</span>BTY</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Anasayfa</a>
+                    <a href="5-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">5. Sınıf</a>
+                    <a href="6-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">6. Sınıf</a>
+                    <!-- AKTİF SAYFA -->
+                    <a href="yapay-zeka.html" class="text-indigo-400 font-bold border-b-2 border-indigo-400 pb-1">Yapay Zekâ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-40 pb-16 px-4 text-center relative">
+        <div class="absolute top-20 left-1/2 transform -translate-x-1/2 opacity-20 pointer-events-none">
+            <i class="fa-solid fa-brain text-9xl text-indigo-300 animate-pulse-slow"></i>
+        </div>
+        <h1 class="text-4xl md:text-7xl font-bold mb-4 text-white drop-shadow-lg relative z-10">
+            Yapay Zekâ <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Atölyesi</span>
+        </h1>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto relative z-10">
+            Sadece izleme, sen de üret! Geleceğin teknolojilerini bugünden deneyimle.
+        </p>
+    </header>
+
+    <!-- ARAÇLAR GRID -->
+    <main class="max-w-7xl mx-auto px-4 pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- 1. AutoDraw -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/40 transition">
+                    <i class="fa-solid fa-wand-magic-sparkles text-yellow-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">AutoDraw</h3>
+                <p class="text-gray-400 text-sm mb-6">Sen karala, yapay zeka ne çizmek istediğini tahmin edip düzeltsin. Çizim yeteneği gerektirmez!</p>
+                <a href="https://www.autodraw.com/" target="_blank" class="mt-auto px-8 py-3 bg-yellow-600 hover:bg-yellow-500 text-white font-bold rounded-xl transition w-full">
+                    Sihirli Çizim Yap
+                </a>
+            </div>
+
+            <!-- 2. Quick, Draw! -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-500/40 transition">
+                    <i class="fa-solid fa-stopwatch text-red-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Quick, Draw!</h3>
+                <p class="text-gray-400 text-sm mb-6">Yapay zeka senin çizimini 20 saniyede tanıyabilir mi? Google'ın eğlenceli çizim oyunu.</p>
+                <a href="https://quickdraw.withgoogle.com/" target="_blank" class="mt-auto px-8 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition w-full">
+                    Oyuna Başla
+                </a>
+            </div>
+
+            <!-- 3. Teachable Machine (Müfredat Uyumlu) -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col items-center text-center group border-indigo-500/50">
+                <div class="w-20 h-20 bg-indigo-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-indigo-500/40 transition">
+                    <i class="fa-solid fa-robot text-indigo-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Teachable Machine</h3>
+                <p class="text-gray-400 text-sm mb-6">Kendi yapay zeka modelini eğit! Bilgisayara resimleri, sesleri veya pozları tanımasını öğret.</p>
+                <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="mt-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition w-full">
+                    Model Eğit
+                </a>
+            </div>
+
+            <!-- 4. Blob Opera -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-500/40 transition">
+                    <i class="fa-solid fa-music text-purple-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Blob Opera</h3>
+                <p class="text-gray-400 text-sm mb-6">Müzik bilmene gerek yok! Sevimli blobları sürükleyerek kendi operanı bestele.</p>
+                <a href="https://artsandculture.google.com/experiment/blob-opera/AAHWrq360NcGbw?hl=en" target="_blank" class="mt-auto px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition w-full">
+                    Müzik Yap
+                </a>
+            </div>
+
+            <!-- 5. Animated Drawings -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-green-500/40 transition">
+                    <i class="fa-solid fa-person-running text-green-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Canlanan Çizimler</h3>
+                <p class="text-gray-400 text-sm mb-6">Kağıda çizdiğin karakteri yükle, yapay zeka onu iskelet sistemine ayırıp hareket ettirsin.</p>
+                <a href="https://sketch.metademolab.com/" target="_blank" class="mt-auto px-8 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition w-full">
+                    Karakteri Canlandır
+                </a>
+            </div>
+
+            <!-- 6. ChatGPT / Bilgi -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-blue-500/40 transition">
+                    <i class="fa-solid fa-comments text-blue-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Sohbet Robotları</h3>
+                <p class="text-gray-400 text-sm mb-6">ChatGPT ve Gemini gibi dil modelleri nasıl çalışır? Doğru "Prompt" (Komut) nasıl yazılır?</p>
+                <a href="#" class="mt-auto px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition w-full cursor-not-allowed opacity-70">
+                    Yakında...
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-header mt-auto py-8 text-center text-gray-400 text-sm">
+        <p class="mb-2">&copy; 2024 Keskin Bilişim BTY. Geleceği Kodlayanların Adresi.</p>
+        <p class="text-xs text-gray-500">Bu sayfadaki araçlar 3. taraf (Google, Meta vb.) servislerdir. Kullanım sorumluluğu kullanıcıya aittir.</p>
+    </footer>
+
+</body>
+</html>

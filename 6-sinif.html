@@ -29,7 +29,7 @@
         }
     </script>
     <style>
-        /* Glassmorphism Stilleri */
+        /* Glassmorphism */
         .glass-card {
             background: rgba(255, 255, 255, 0.07);
             backdrop-filter: blur(12px);
@@ -43,7 +43,7 @@
         }
         body { background-color: #0f172a; color: #e2e8f0; }
         
-        /* Özel Select Box Tasarımı */
+        /* Select Box */
         select {
             appearance: none;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232dd4bf%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
@@ -55,16 +55,17 @@
             border: 1px solid #475569;
         }
         
-        /* İçerik Göster/Gizle Mantığı */
+        /* GARANTİLİ GÖSTERİM MANTIĞI */
         .content-panel {
             display: none; /* Varsayılan gizli */
             flex-direction: column;
             gap: 0.5rem;
-            animation: fadeIn 0.4s ease-in-out;
         }
         
+        /* 'active' sınıfı eklenince GÖRÜNÜR OLACAK */
         .content-panel.active {
-            display: flex; /* Seçilince görünür */
+            display: flex !important;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         @keyframes fadeIn {
@@ -82,7 +83,7 @@
             transition: all 0.2s;
         }
         .resource-link:hover {
-            background: rgba(45, 212, 191, 0.1); /* Turkuaz hover */
+            background: rgba(45, 212, 191, 0.1);
             border-color: rgba(45, 212, 191, 0.3);
             transform: translateX(4px);
         }
@@ -90,7 +91,7 @@
 </head>
 <body class="min-h-screen relative overflow-x-hidden selection:bg-teal-500 selection:text-white font-sans">
 
-    <!-- ARKA PLAN (6. Sınıf Turkuaz/Yeşil Teması) -->
+    <!-- ARKA PLAN -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-teal-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
         <div class="absolute top-0 right-1/4 w-96 h-96 bg-emerald-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -110,9 +111,10 @@
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="index.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Anasayfa</a>
                     <a href="5-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">5. Sınıf</a>
-                    <!-- AKTİF SAYFA -->
                     <a href="6-sinif.html" class="text-teal-400 font-bold border-b-2 border-teal-400 pb-1">6. Sınıf</a>
                     <a href="#" class="text-gray-400 hover:text-white hover:scale-105 transition">Yapay Zekâ</a>
+                    <a href="#" class="text-gray-300 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
+                    <a href="#" class="block py-3 px-4 text-gray-300 hover:bg-white/5 hover:text-white transition">İletişim</a>
                 </div>
             </div>
         </div>
@@ -145,29 +147,29 @@
                     <select onchange="showContent('tema1', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
                         <option value="t1-k1">1. Yenilikçi Bilişim Teknolojileri</option>
-                        <option value="t1-k2">2. Geleceğin Teknolojileri</option>
+                        <option value="t1-k2">2. Geleceğin Teknolojileri ve Çıkarımlar</option>
                     </select>
                 </div>
 
                 <div id="tema1-content" class="mt-2 min-h-[120px]">
-                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">İçerik için konu seçiniz.</p>
                     
                     <div id="t1-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Yenilikçi Teknolojiler (Slayt)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Giyilebilir Teknoloji (İnfografik)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Kazanım Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Artırılmış Gerçeklik Videosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Yenilikçi Teknolojiler (Slayt)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Giyilebilir Teknoloji (İnfografik)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kazanım Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Artırılmış Gerçeklik Videosu</span></a>
                     </div>
                     <div id="t1-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Gelecek Senaryoları (Slayt)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Zaman Çizelgesi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Kazanım Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Geleceğin Dünyası Belgeseli</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Gelecek Senaryoları (Slayt)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Zaman Çizelgesi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kazanım Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Geleceğin Dünyası Belgeseli</span></a>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. TEMA KARTI -->
+            <!-- 2. TEMA KARTI (Yoğun İçerik) -->
             <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-cyan-500/30 transition duration-500 lg:col-span-2">
                 <div class="flex items-center justify-between mb-4">
                     <span class="text-xs font-bold tracking-widest text-cyan-400 uppercase border border-cyan-400/20 px-2 py-1 rounded bg-cyan-400/5">Tema 2</span>
@@ -192,68 +194,67 @@
                 </div>
 
                 <div id="tema2-content" class="mt-2 min-h-[120px] grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="md:col-span-2"><p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p></div>
+                    <div class="md:col-span-2"><p class="text-gray-500 text-sm italic text-center py-4 opacity-50">İçerik için konu seçiniz.</p></div>
                     
                     <div id="t2-k1" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-excel text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Excel Arayüzü Tanıtımı</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Hücre, Satır, Sütun İnfografik</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Excel Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Temel Excel Videosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-excel text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Excel Arayüzü Tanıtımı</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Hücre, Satır, Sütun Videosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Excel Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Hücre, Satır, Sütun İnfografik</span></a>
                     </div>
                     <div id="t2-k2" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Veri Problemleri Sunusu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Veri Döngüsü Şeması</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Veri Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Veri Nedir? Video</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Problemleri Sunusu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Döngüsü Şeması</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Nedir? Video</span></a>
                     </div>
-                    <!-- t2-k3'ten t2-k10'a kadar tüm konular dolu -->
                     <div id="t2-k3" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-table text-blue-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Örnek Veri Tablosu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Test</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Veri Girişi Videosu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Veri Türleri Tablosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-table text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Örnek Veri Tablosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Test</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Girişi Videosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Türleri Tablosu</span></a>
                     </div>
                     <div id="t2-k4" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-chart-pie text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Grafik Oluşturma Rehberi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-calculator text-yellow-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Formüller (Topla, Ort)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Grafik Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Formül Kullanımı Video</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-chart-pie text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Grafik Oluşturma Rehberi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-calculator text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Formüller (Topla, Ort)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Grafik Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Formül Kullanımı Video</span></a>
                     </div>
                     <div id="t2-k5" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-microphone text-pink-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Audacity Kurulumu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Ses Dosyası Türleri</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Ses Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Audacity Dersleri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-microphone text-pink-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Audacity Kurulumu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Ses Dosyası Türleri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Ses Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Audacity Dersleri</span></a>
                     </div>
                     <div id="t2-k6" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-word text-blue-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Radyo Tiyatrosu Senaryosu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Kurgu Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Kurgu Nasıl Yapılır?</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Senaryo Taslağı</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-word text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Radyo Tiyatrosu Senaryosu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kurgu Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kurgu Nasıl Yapılır?</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Senaryo Taslağı</span></a>
                     </div>
                     <div id="t2-k7" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Ses Kesme ve Birleştirme</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-music text-yellow-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Arka Plan Müziği Ekleme</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Ses Efektleri Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-audio text-blue-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Örnek Ses Dosyası</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Ses Kesme ve Birleştirme</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-music text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Arka Plan Müziği Ekleme</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Ses Efektleri Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-audio text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Örnek Ses Dosyası</span></a>
                     </div>
                     <div id="t2-k8" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-film text-indigo-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Video Düzenleme Programları</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Video Formatları</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Video Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Video Programı Kurulumu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-film text-indigo-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Video Düzenleme Programları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Video Formatları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Video Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Video Programı Kurulumu</span></a>
                     </div>
                     <div id="t2-k9" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clapperboard text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Storyboard Şablonu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Kurgu Teknikleri İnfografik</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Kurgu Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Video Kurgu Dersi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clapperboard text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Storyboard Şablonu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kurgu Teknikleri İnfografik</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kurgu Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Video Kurgu Dersi</span></a>
                     </div>
                     <div id="t2-k10" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Video Geçiş Efektleri</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-download text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Örnek Proje Dosyaları</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Montaj Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-film text-indigo-400 w-8 text-center"></i><span class="text-sm ml-2 text-gray-200">Bitmiş Video Örneği</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Video Geçiş Efektleri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-download text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Örnek Proje Dosyaları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Montaj Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-film text-indigo-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Bitmiş Video Örneği</span></a>
                     </div>
                 </div>
             </div>

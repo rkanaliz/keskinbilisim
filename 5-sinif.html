@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Sınıf Materyalleri - Keskin Bilişim BTY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism Stilleri */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-header {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: #0f172a; /* Çok koyu lacivert/slate zemin */
+            color: #e2e8f0;
+        }
+
+        /* Özel Select Box (Açılır Menü) Tasarımı - Siyah yerine koyu cam */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.7rem auto;
+        }
+        
+        /* İçerik Göster/Gizle Animasyonu */
+        .content-panel {
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+        .content-panel.active {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Materyal Link Butonları */
+        .resource-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        .resource-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-pink-500 selection:text-white font-sans">
+
+    <!-- ARKA PLAN -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-cyan-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass-header fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 group">
+                        <i class="fa-solid fa-microchip text-pink-400 text-3xl group-hover:rotate-12 transition"></i>
+                        <span class="font-bold text-xl tracking-wider text-gray-100">Keskin<span class="text-pink-400">Bilişim</span>BTY</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Anasayfa (Pasif - Gri) -->
+                    <a href="index.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Anasayfa</a>
+                    <!-- 5. Sınıf (Aktif - Pembe) -->
+                    <a href="5-sinif.html" class="text-pink-400 font-bold border-b-2 border-pink-400 pb-1">5. Sınıf</a>
+                    <!-- 6. Sınıf (Pasif - Gri) -->
+                    <a href="6-sinif.html" class="text-gray-300 hover:text-white hover:scale-105 transition">6. Sınıf</a>
+                    <!-- Yapay Zekâ (Pasif - Gri) -->
+                    <a href="#" class="text-gray-300 hover:text-white hover:scale-105 transition">Yapay Zekâ</a>
+                    <a href="#" class="text-gray-300 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
+                    <a href="#" class="bg-pink-600 hover:bg-pink-500 text-white px-5 py-2 rounded-full transition shadow-lg shadow-pink-500/30">İletişim</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-40 pb-16 px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            5. Sınıf <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">Materyal Arşivi</span>
+        </h1>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Konuyu seçin, tüm ders materyalleri (Slayt, Video, Test, İnfografik) anında listelensin.
+        </p>
+    </header>
+
+    <!-- ANA İÇERİK -->
+    <main class="max-w-7xl mx-auto px-4 pb-24">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- 1. TEMA: Bilişim Teknolojilerinin Hayatımızdaki Yeri -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-pink-500/30 transition duration-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold tracking-widest text-pink-400 uppercase border border-pink-400/20 px-2 py-1 rounded bg-pink-400/5">Tema 1</span>
+                    <i class="fa-solid fa-computer text-pink-300 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-6">Bilişim Teknolojilerinin Hayatımızdaki Yeri</h2>
+
+                <!-- MENÜ -->
+                <div class="mb-4">
+                    <select onchange="showContent('tema1', this.value)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block p-3 cursor-pointer hover:bg-slate-800 transition shadow-inner">
+                        <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
+                        <option value="t1-k1">1. Bilişim Teknolojilerini Sınıflandırma</option>
+                        <option value="t1-k2">2. BT'nin Etkileri ve Sağlık</option>
+                        <option value="t1-k3">3. Dijital Vatandaşlık</option>
+                        <option value="t1-k4">4. Yapay Zekâ Temel Kavramlar</option>
+                        <option value="t1-k5">5. Bilgisayar Sistemleri</option>
+                        <option value="t1-k6">6. Dosya ve Klasör Yönetimi</option>
+                    </select>
+                </div>
+
+                <!-- İÇERİK ALANI -->
+                <div id="tema1-content" class="mt-2 min-h-[120px]">
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    
+                    <!-- BTY.5.1.1 -->
+                    <div id="t1-k1" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Ders Sunusu (PDF)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Bilişim Araçları Posteri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Kazanım Testi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Konu Anlatım Videosu</span></a>
+                    </div>
+                    <!-- BTY.5.1.2 -->
+                    <div id="t1-k2" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Ergonomi Sunusu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Doğru Oturuş İnfografiği</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Teknoloji Bağımlılığı Videosu</span></a>
+                    </div>
+                    <!-- BTY.5.1.3 -->
+                    <div id="t1-k3" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-pdf text-blue-400 w-8 text-center"></i><span class="text-sm">Dijital Ayak İzi Rehberi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">E-Devlet Simülasyonu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Dijital Yurttaş Kimdir?</span></a>
+                    </div>
+                    <!-- BTY.5.1.4 -->
+                    <div id="t1-k4" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-brain text-pink-400 w-8 text-center"></i><span class="text-sm">Yapay Zekâ Nedir? (Sunu)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Makine Öğrenmesi Animasyonu</span></a>
+                    </div>
+                    <!-- BTY.5.1.5 -->
+                    <div id="t1-k5" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-microchip text-yellow-400 w-8 text-center"></i><span class="text-sm">Donanım Parçaları Sunusu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-gamepad text-green-400 w-8 text-center"></i><span class="text-sm">Donanım Eşleştirme Oyunu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Giriş-Çıkış Birimleri Tablosu</span></a>
+                    </div>
+                    <!-- BTY.5.1.6 -->
+                    <div id="t1-k6" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-folder-open text-blue-400 w-8 text-center"></i><span class="text-sm">Klasör Yapısı Uygulaması</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-zipper text-orange-400 w-8 text-center"></i><span class="text-sm">Dosya Uzantıları Listesi</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. TEMA: Dijital Ürün Tasarımı ve Geliştirme -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-purple-500/30 transition duration-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold tracking-widest text-purple-400 uppercase border border-purple-400/20 px-2 py-1 rounded bg-purple-400/5">Tema 2</span>
+                    <i class="fa-solid fa-pen-ruler text-purple-300 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-6">Dijital Ürün Tasarımı</h2>
+
+                <div class="mb-4">
+                    <select onchange="showContent('tema2', this.value)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block p-3 cursor-pointer hover:bg-slate-800 transition shadow-inner">
+                        <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
+                        <option value="t2-k1">1. Görsel Düzenleme Programları</option>
+                        <option value="t2-k2">2. Görsel Kurgu Oluşturma</option>
+                        <option value="t2-k3">3. Görsel Dosyası Geliştirme</option>
+                        <option value="t2-k4">4. Kelime İşlemci Programları</option>
+                        <option value="t2-k5">5. Kelime İşlemci Dosyası Geliştirme</option>
+                        <option value="t2-k6">6. Sunum Programları</option>
+                        <option value="t2-k7">7. Sunum Dosyası Geliştirme</option>
+                    </select>
+                </div>
+
+                <div id="tema2-content" class="mt-2 min-h-[120px]">
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    
+                    <div id="t2-k1" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Piksel ve Vektör Farkı</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Canva Arayüz Tanıtımı</span></a>
+                    </div>
+                    <div id="t2-k2" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-list-check text-blue-400 w-8 text-center"></i><span class="text-sm">Senaryo Taslağı (Word)</span></a>
+                    </div>
+                    <div id="t2-k3" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Örnek Afiş Çalışmaları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Görsel Düzenleme Dersi</span></a>
+                    </div>
+                    <div id="t2-k4" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-word text-blue-400 w-8 text-center"></i><span class="text-sm">Word Arayüzü İnfografik</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Klavye Kısayolları Testi</span></a>
+                    </div>
+                    <div id="t2-k5" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-lines text-orange-400 w-8 text-center"></i><span class="text-sm">Örnek Dilekçe Taslağı</span></a>
+                    </div>
+                    <div id="t2-k6" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Etkili Sunum Teknikleri</span></a>
+                    </div>
+                    <div id="t2-k7" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-download text-green-400 w-8 text-center"></i><span class="text-sm">Sunum Şablonu İndir</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Animasyon Ekleme Dersi</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. TEMA: Bilgisayar Ağları ve İletişim -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-green-500/30 transition duration-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold tracking-widest text-green-400 uppercase border border-green-400/20 px-2 py-1 rounded bg-green-400/5">Tema 3</span>
+                    <i class="fa-solid fa-globe text-green-300 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-6">Bilgisayar Ağları ve İletişim</h2>
+
+                <div class="mb-4">
+                    <select onchange="showContent('tema3', this.value)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-3 cursor-pointer hover:bg-slate-800 transition shadow-inner">
+                        <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
+                        <option value="t3-k1">1. Bilgisayar Ağları ve Bileşenleri</option>
+                        <option value="t3-k2">2. Ağ Bağlantı Yöntemleri</option>
+                        <option value="t3-k3">3. İnternet ile Çalışma</option>
+                    </select>
+                </div>
+
+                <div id="tema3-content" class="mt-2 min-h-[120px]">
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    
+                    <div id="t3-k1" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Ağ Nedir? (Sunum)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Modem/Router Görselleri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Ağ Terimleri Testi</span></a>
+                    </div>
+                    <div id="t3-k2" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-wifi text-blue-400 w-8 text-center"></i><span class="text-sm">Wi-Fi ve Kablolu Bağlantı</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">5G Teknolojisi Videosu</span></a>
+                    </div>
+                    <div id="t3-k3" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-google text-orange-400 w-8 text-center"></i><span class="text-sm">Arama Motoru İpuçları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Doğru Bilgiye Ulaşma Testi</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. TEMA: Bilişim Etiği ve Siber Güvenlik -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-blue-500/30 transition duration-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold tracking-widest text-blue-400 uppercase border border-blue-400/20 px-2 py-1 rounded bg-blue-400/5">Tema 4</span>
+                    <i class="fa-solid fa-shield-halved text-blue-300 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-6">Bilişim Etiği ve Siber Güvenlik</h2>
+
+                <div class="mb-4">
+                    <select onchange="showContent('tema4', this.value)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 cursor-pointer hover:bg-slate-800 transition shadow-inner">
+                        <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
+                        <option value="t4-k1">1. Bilişim Etiği Kural ve İlkeleri</option>
+                        <option value="t4-k2">2. Dijital Gizlilik ve Güvenlik</option>
+                    </select>
+                </div>
+
+                <div id="tema4-content" class="mt-2 min-h-[120px]">
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    
+                    <div id="t4-k1" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-gavel text-orange-400 w-8 text-center"></i><span class="text-sm">Etik Kurallar Listesi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Siber Zorbalık Kamu Spotu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Telif Hakları Testi</span></a>
+                    </div>
+                    <div id="t4-k2" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-lock text-red-400 w-8 text-center"></i><span class="text-sm">Güçlü Şifre Oluşturma</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Kişisel Veri Nedir? (Afiş)</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. TEMA: Yapay Zekâ -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-indigo-500/30 transition duration-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold tracking-widest text-indigo-400 uppercase border border-indigo-400/20 px-2 py-1 rounded bg-indigo-400/5">Tema 5</span>
+                    <i class="fa-solid fa-brain text-indigo-300 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-6">Yapay Zekâ</h2>
+
+                <div class="mb-4">
+                    <select onchange="showContent('tema5', this.value)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-3 cursor-pointer hover:bg-slate-800 transition shadow-inner">
+                        <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
+                        <option value="t5-k1">1. Yapay Zekâ Girdileri ve Bilgi Toplama</option>
+                        <option value="t5-k2">2. Yapay Zekâ Araçlarıyla Çalışma</option>
+                        <option value="t5-k3">3. Yapay Zekâ ile Model Geliştirme</option>
+                    </select>
+                </div>
+
+                <div id="tema5-content" class="mt-2 min-h-[120px]">
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    
+                    <div id="t5-k1" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-database text-blue-400 w-8 text-center"></i><span class="text-sm">Veri ve Girdi Nedir? (Sunum)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">YZ Nasıl Öğrenir? (Video)</span></a>
+                    </div>
+                    <div id="t5-k2" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-robot text-indigo-400 w-8 text-center"></i><span class="text-sm">Popüler YZ Araçları Listesi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Hangi Araç Ne İşe Yarar? (Test)</span></a>
+                    </div>
+                    <div id="t5-k3" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-project-diagram text-orange-400 w-8 text-center"></i><span class="text-sm">Teachable Machine Örneği</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. TEMA: Yazılım Tasarımı ve Programlama -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-yellow-500/30 transition duration-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold tracking-widest text-yellow-400 uppercase border border-yellow-400/20 px-2 py-1 rounded bg-yellow-400/5">Tema 6</span>
+                    <i class="fa-solid fa-code text-yellow-300 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-6">Yazılım Tasarımı ve Programlama</h2>
+
+                <div class="mb-4">
+                    <select onchange="showContent('tema6', this.value)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block p-3 cursor-pointer hover:bg-slate-800 transition shadow-inner">
+                        <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
+                        <option value="t6-k1">1. Problem Çözme ve Algoritmik Düşünme</option>
+                        <option value="t6-k2">2. Algoritma Test Etme ve Hata Ayıklama</option>
+                        <option value="t6-k3">3. Yazılım Geliştirme Bileşenleri</option>
+                        <option value="t6-k4">4. Blok Tabanlı Yazılım Yönetimi</option>
+                    </select>
+                </div>
+
+                <div id="tema6-content" class="mt-2 min-h-[120px]">
+                    <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
+                    
+                    <div id="t6-k1" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Algoritma Mantığı (Sunum)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Akış Şeması Sembolleri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Algoritma Bulmacası</span></a>
+                    </div>
+                    <div id="t6-k2" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-bug text-red-400 w-8 text-center"></i><span class="text-sm">Hata Ayıklama (Debugging)</span></a>
+                    </div>
+                    <div id="t6-k3" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-cubes text-blue-400 w-8 text-center"></i><span class="text-sm">Sabit ve Değişken Kavramları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Döngüler ve Koşullar</span></a>
+                    </div>
+                    <div id="t6-k4" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-puzzle-piece text-orange-400 w-8 text-center"></i><span class="text-sm">Scratch ile İlk Oyunum</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-pdf text-blue-400 w-8 text-center"></i><span class="text-sm">Blok Kodlama Rehberi</span></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-header mt-auto py-8 text-center text-gray-400 text-sm">
+        <p>&copy; 2024 Keskin Bilişim BTY. Geleceği Kodlayanların Adresi.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function showContent(temaId, konuId) {
+            // İlgili temanın içerik alanını bul
+            const container = document.getElementById(temaId + '-content');
+            const panels = container.getElementsByClassName('content-panel');
+            const placeholder = container.querySelector('p');
+
+            // Placeholder yazısını gizle
+            if(placeholder) placeholder.style.display = 'none';
+
+            // Tüm panelleri gizle
+            for (let panel of panels) {
+                panel.classList.remove('active');
+                // Kısa bir gecikme ile display:none yapıyoruz ki animasyon çalışsın
+                setTimeout(() => {
+                    if(!panel.classList.contains('active')) panel.style.display = 'none';
+                }, 0);
+            }
+
+            // Seçilen konuyu göster
+            const selectedPanel = document.getElementById(konuId);
+            if (selectedPanel) {
+                selectedPanel.style.display = 'flex';
+                // Küçük bir gecikme ile active class'ını ekle (fade in efekti için)
+                setTimeout(() => {
+                    selectedPanel.classList.add('active');
+                }, 10);
+            }
+        }
+    </script>
+
+</body>
+</html>

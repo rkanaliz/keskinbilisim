@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEB Uyumlu Günlük Plan Oluşturucu</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Kurumsal Arka Plan - Slate-50 */
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        
+        .custom-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%232563eb' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* AI Response Table Styles */
+        .ai-response table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px; font-size: 0.9rem; }
+        .ai-response th, .ai-response td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        .ai-response th { background-color: #f1f5f9; font-weight: 600; color: #1e293b; }
+        .ai-response ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .ai-response li { margin-bottom: 0.25rem; }
+        .ai-response strong { color: #1e40af; }
+
+        /* Yazdırma Stilleri */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-area, #printable-area * { visibility: visible; }
+            #printable-area { position: absolute; left: 0; top: 0; width: 100%; background: white; color: black; padding: 20px; z-index: 9999; box-shadow: none; border: none; }
+            .no-print { display: none !important; }
+        }
+        
+        /* Tablo Stilleri (Plan İçin) */
+        .plan-table table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.9rem; font-family: 'Times New Roman', serif; }
+        .plan-table th, .plan-table td { border: 1px solid #000; padding: 8px; text-align: left; vertical-align: top; }
+        .plan-table th { background-color: #f1f5f9; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        
+        // --- KAZANIM VERİ SETİ (DEĞİŞMEDİ) ---
+        const LEARNING_OUTCOMES = {
+            "5. Sınıf": {
+                "BTY.5.1.1": { text: "Günlük yaşamda kullanılan bilişim teknolojilerini sınıflandırır.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.5.1.2": { text: "Bilişim teknolojilerinin birey ve toplum üzerindeki etkilerini özetler.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.5.1.3": { text: "Dijital vatandaşlık uygulamalarını sınıflandırır.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.5.1.4": { text: "Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgular.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.5.1.5": { text: "Bilgisayar sistemlerini çözümler.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.5.1.6": { text: "Dosya ve klasör yönetimi ile ilgili temel işlemlerle çalışır.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.5.2.1": { text: "Görsel düzenleme programlarından yararlanır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.2.2": { text: "Görsel için kurgu oluşturur.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.2.3": { text: "Görsel dosyası geliştirir.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.2.4": { text: "Kelime işlemci programlarından yararlanır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.2.5": { text: "Kelime işlemci dosyası geliştirir.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.2.6": { text: "Sunum programlarından yararlanır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.2.7": { text: "Sunum dosyası geliştirir.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.5.3.1": { text: "Bilgisayar ağları ve bileşenlerini sorgular.", theme: "3. BİLGİSAYAR AĞLARI VE İLETİŞİM" },
+                "BTY.5.3.2": { text: "Bilgisayar ağları ve bağlanma yöntemlerini sınıflandırır.", theme: "3. BİLGİSAYAR AĞLARI VE İLETİŞİM" },
+                "BTY.5.3.3": { text: "İnternet ile amacına uygun olarak çalışır.", theme: "3. BİLGİSAYAR AĞLARI VE İLETİŞİM" },
+                "BTY.5.4.1": { text: "Bilişim etiği kural ve ilkelerini yorumlar.", theme: "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK" },
+                "BTY.5.4.2": { text: "Dijital ortamlarda gizlilik ve güvenlik önlemlerini yönetir.", theme: "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK" },
+                "BTY.5.5.1": { text: "Yapay zekâ uygulamalarını sınıflandırır.", theme: "5. YAPAY ZEKA" },
+                "BTY.5.5.2": { text: "Yapay zekâya ilişkin etik ve güvenlik/gizlilik önlemlerini yönetir.", theme: "5. YAPAY ZEKA" },
+                "BTY.5.6.1": { text: "Problem çözümü için algoritmik düşünür.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" },
+                "BTY.5.6.2": { text: "Algoritma oluşturmada test eder ve hata ayıklar.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" },
+                "BTY.5.6.3": { text: "Yazılım geliştirme sürecinde kullanılan bileşenlerden yararlanır.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" },
+                "BTY.5.6.4": { text: "Blok tabanlı ortamda yazılım geliştirme sürecini yönetir.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" }
+            },
+            "6. Sınıf": {
+                "BTY.6.1.1": { text: "Yenilikçi bilişim teknolojilerini sınıflandırır.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.6.1.2": { text: "Bilişim teknolojisinin gelecekteki durumlarına yönelik çıkarım yapar.", theme: "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ" },
+                "BTY.6.2.1": { text: "Tablolama programlarından yararlanır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.2": { text: "Tablolama programlarının kullanımına yönelik problemleri belirler.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.3": { text: "Tablolama dosyasında kullanılacak verileri toplar ve düzenler.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.4": { text: "Tablolama programları kullanarak bulgulara ulaşır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.5": { text: "Ses düzenleme programlarından yararlanır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.6": { text: "Ses dosyası için kurgu oluşturur.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.7": { text: "Ses dosyası geliştirir.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.8": { text: "Video düzenleme programlarından yararlanır.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.9": { text: "Video dosyası için kurgu oluşturur.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.2.10": { text: "Video dosyası geliştirir.", theme: "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME" },
+                "BTY.6.3.1": { text: "İnternet ile amacına uygun olarak çalışır.", theme: "3. BİLGİSAYAR AĞLARI VE İLETİŞİM" },
+                "BTY.6.3.2": { text: "İletişim teknolojilerini sınıflandırır.", theme: "3. BİLGİSAYAR AĞLARI VE İLETİŞİM" },
+                "BTY.6.3.3": { text: "İletişim teknolojileri ile çalışır.", theme: "3. BİLGİSAYAR AĞLARI VE İLETİŞİM" },
+                "BTY.6.4.1": { text: "Bilişim etiği kapsamında güvenlik önlemlerini yönetir.", theme: "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK" },
+                "BTY.6.4.2": { text: "Telif hakkı kavramını sorgular.", theme: "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK" },
+                "BTY.6.4.3": { text: "Siber ortamda güvenlik önlemlerini yönetir.", theme: "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK" },
+                "BTY.6.4.4": { text: "Kullanım haklarına göre lisans türlerini karşılaştırır.", theme: "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK" },
+                "BTY.6.5.1": { text: "Yapay zekâ girdileri hakkında bilgi toplar.", theme: "5. YAPAY ZEKA" },
+                "BTY.6.5.2": { text: "Yapay zekâ araç ve teknolojileri ile çalışır.", theme: "5. YAPAY ZEKA" },
+                "BTY.6.5.3": { text: "Yapay zekâ araç ve teknolojileri ile model geliştirir.", theme: "5. YAPAY ZEKA" },
+                "BTY.6.6.1": { text: "Blok tabanlı ortamda yazılım geliştirme sürecinde kullanılan bileşenlerden yararlanır.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" },
+                "BTY.6.6.2": { text: "Blok tabanlı ortamda yazılım geliştirme sürecini yönetir.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" },
+                "BTY.6.6.3": { text: "Blok tabanlı ortamda yapay zekâ destekli ürün ortaya koyar.", theme: "6. YAZILIM TASARIMI VE PROGRAMLAMA" }
+            }
+        };
+
+        // --- MÜFREDAT VERİ SETİ (DEĞİŞMEDİ) ---
+        const DIFFERENTIATION_DATA = {
+            "5. Sınıf": {
+                "Bilişim Teknolojileri ve Yazılım": {
+                    "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ": {
+                        title: "1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri (14 Ders Saati)",
+                        enrichment: ["Öğrencilerin 'bilgi' kavramını merkeze alarak günlük yaşamda karşılaştıkları teknolojik bilgileri karşılaştırmaları sağlanabilir.", "Aile büyükleriyle röportaj yaparak geçmişte kullanılan bilişim teknolojilerini araştırmaları ve sınıfla paylaşmaları istenebilir.", "Geçmişten günümüze bilişim teknolojilerini içeren bir zaman çizelgesi oluşturarak gelişimi analiz etmeleri istenebilir."],
+                        support: ["Bilişim teknolojilerine dair temel kavramları (donanım, yazılım vb.) içeren kavram haritaları oluşturulabilir.", "Geçmiş ve günümüz teknoloji araçlarını içeren kartlarla basit bir zaman çizelgesi oluşturmaları istenebilir."]
+                    },
+                    "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME": {
+                        title: "2. Tema: Dijital Ürün Tasarımı ve Geliştirme (12 Ders Saati)",
+                        enrichment: ["Sosyal bir problem ya da güncel bir olay üzerine bilgilendirici dijital broşür ya da farkındalık afişleri tasarlamaları sağlanabilir.", "Bir hikaye oluşturup bunu storyboard tekniğiyle görsellerle kurgulayarak anlatmaları istenebilir."],
+                        support: ["Hazır bir görsel üzerinde basit düzenleme işlemleri (kırpma, parlaklık ayarı, metin ekleme) yapmaları istenebilir.", "Yarım bırakılmış bir metni kelime işlemci programında tamamlayıp biçimlendirmeleri istenebilir."]
+                    },
+                    "3. BİLGİSAYAR AĞLARI VE İLETİŞİM": {
+                        title: "3. Tema: Bilgisayar Ağları ve İletişim (6 Ders Saati)",
+                        enrichment: ["Çevrelerinde gözlemleyebildikleri farklı ağ türlerini listelemeleri ve şematize etmeleri istenebilir.", "Bir simülasyon ortamında ortaya çıkan ağ sorunlarını (bağlantı kopması vb.) tespit edip çözmeleri istenebilir."],
+                        support: ["Bilgisayar ağlarının çalışma mantığını gösteren animasyonlar izletilebilir.", "Ağ bileşenlerini (modem, kablo) somut örneklerle incelemeleri sağlanabilir."]
+                    },
+                    "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK": {
+                        title: "4. Tema: Bilişim Etiği ve Siber Güvenlik (4 Ders Saati)",
+                        enrichment: ["Bilişim etiğini konu alan kısa bir film veya animasyon senaryosu hazırlamaları istenebilir.", "Belirli bir siber güvenlik senaryosu üzerinde derinlemesine analiz yapıp çözüm önerileri geliştirmeleri istenebilir."],
+                        support: ["Bilişim etiği kurallarını içeren kısa animasyonlar ve videolar izletilebilir.", "Doğru/Yanlış kartları ile güvenli şifre oluşturma ve etik kurallar oyunu oynatılabilir."]
+                    },
+                    "5. YAPAY ZEKA": {
+                        title: "5. Tema: Yapay Zeka (8 Ders Saati)",
+                        enrichment: ["Yapay zeka tarihinden bir dönüm noktasını seçip 'Yaşanmasaydı ne olurdu?' temalı alternatif tarih senaryosu yazmaları istenebilir.", "Yapay zekanın alt dallarını (Makine öğrenmesi, Derin öğrenme) araştırıp bir rapor sunmaları istenebilir."],
+                        support: ["Yapay zekanın olası kullanım alanlarıyla ilgili yaratıcı çizimler yapmaları istenebilir.", "Yapay zekanın doğru ve yanlış kullanım alanlarını listelemeleri istenebilir."]
+                    },
+                    "6. YAZILIM TASARIMI VE PROGRAMLAMA": {
+                        title: "6. Tema: Yazılım Tasarımı ve Programlama (24 Ders Saati)",
+                        enrichment: ["Klasik 'Kurt, Kuzu, Ot' problemine benzer, daha karmaşık kurallar içeren özgün bir mantık bulmacası tasarlayıp çözmeleri istenebilir.", "Okul sorunlarına yönelik (kütüphane sistemi, nöbetçi öğrenci takibi vb.) proje fikirleri geliştirmeleri istenebilir."],
+                        support: ["Algoritma geliştirme becerileri için 'Code.org' veya benzeri blok tabanlı interaktif araçlar kullanılabilir.", "Günlük yaşam problemleri (tost yapma, okula gitme) üzerinden akış şemaları oluşturulabilir."]
+                    }
+                }
+            },
+            "6. Sınıf": {
+                "Bilişim Teknolojileri ve Yazılım": {
+                    "1. BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ": {
+                        title: "1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri (4 Ders Saati)",
+                        enrichment: ["Sınıfta bir 'Teknoloji Fuarı' düzenleyerek farklı kategorilerdeki yenilikçi teknolojileri tanıtmaları istenebilir.", "Artırılmış gerçeklik (AR) uygulamalarını kullanarak sınıf içinde bir doğa keşif etkinliği tasarlamaları istenebilir."],
+                        support: ["Bilişim teknolojilerinin tarihsel gelişimini gösteren görsellerle bir zaman çizelgesi oluşturmaları istenebilir.", "Sanal teknoloji müzesi gezisi ile eski ve yeni teknolojileri karşılaştırmaları sağlanabilir."]
+                    },
+                    "2. DİJİTAL ÜRÜN TASARIMI VE GELİŞTİRME": {
+                        title: "2. Tema: Dijital Ürün Tasarımı ve Geliştirme (12 Ders Saati)",
+                        enrichment: ["Tablolama programında aile bütçesi veya sınıf verilerini analiz eden, formül ve grafik içeren işlevsel tablolar hazırlamaları istenebilir.", "Bir film prodüksiyon sürecini (senaryo, çekim planı) anlatan kapsamlı bir sunum dosyası hazırlamaları istenebilir."],
+                        support: ["Çevrim içi kullanılabilecek basit tablolama veya video düzenleme araçlarını araştırıp listelemeleri istenebilir.", "Tablolama programlarının kullanım amaçlarını anlatan basit bir sunum hazırlamaları istenebilir."]
+                    },
+                    "3. BİLGİSAYAR AĞLARI VE İLETİŞİM": {
+                        title: "3. Tema: Bilgisayar Ağları ve İletişim (4 Ders Saati)",
+                        enrichment: ["Verilen bir konu hakkında farklı arama motorlarını (akademik vb.) kullanarak bilgi toplayıp sonuçları karşılaştırmaları istenebilir.", "Farklı iletişim araçları (e-posta, sosyal medya, forum) için uygun dilde farklı mesajlar hazırlamaları istenebilir."],
+                        support: ["Arama motorlarının nasıl çalıştığını gösteren görsel materyallerle örnek aramalar yapmaları sağlanabilir.", "İletişim teknolojilerini anlatan animasyonlar izletilebilir."]
+                    },
+                    "4. BİLİŞİM ETİĞİ VE SİBER GÜVENLİK": {
+                        title: "4. Tema: Bilişim Etiği ve Siber Güvenlik (4 Ders Saati)",
+                        enrichment: ["İnternetin bilinçli kullanımıyla ilgili bir kamu spotu videosu oluşturmaları istenebilir.", "Siber zorbalığa uğrayan birinin duygularını anlatan bir drama veya tiyatro gösterisi hazırlamaları istenebilir."],
+                        support: ["Bilişim etiği konularını somutlaştıran örnek olay videoları izletilebilir.", "Siber zorbalık ve etik ihlallerini içeren kartlarla doğru/yanlış oyunu oynatılabilir."]
+                    },
+                    "5. YAPAY ZEKA": {
+                        title: "5. Tema: Yapay Zeka (10 Ders Saati)",
+                        enrichment: ["Yapay zekanın farklı disiplinlerdeki (Fen, Türkçe, Müzik) kullanımını araştırıp disiplinler arası bir sunum hazırlamaları istenebilir.", "Farklı disiplinler için yapay zeka 'girdileri' (veri setleri) üretmeleri ve bunları modellemeleri istenebilir."],
+                        support: ["Yapay zeka uygulamalarının çalışma mantığını (Girdi -> İşlem -> Çıktı) gösteren videolar izletilebilir.", "Sesli asistanlar veya öneri sistemleri gibi basit yapay zeka araçlarını deneyimlemeleri sağlanabilir."]
+                    },
+                    "6. YAZILIM TASARIMI VE PROGRAMLAMA": {
+                        title: "6. Tema: Yazılım Tasarımı ve Programlama (34 Ders Saati)",
+                        enrichment: ["Yapay zeka kullanan bir mesleği araştırıp, o meslekteki değişimleri sunmaları istenebilir.", "Yapay zekaya özel açık veri setleri kullanarak basit bir sınıflandırma modeli (örneğin bitki türü tanıma) eğitmeleri istenebilir."],
+                        support: ["Değişkenler, döngüler ve koşullar gibi kavramlar için interaktif web 2.0 oyunları kullanılabilir.", "Adım adım yönergelerle basit bir karakter hareket ettirme veya ışık yakma projesi yapmaları sağlanabilir."]
+                    }
+                }
+            }
+        };
+
+        // --- TEMA ADI NORMALİZASYON FONKSİYONU ---
+        function normalizeThemeName(str) {
+            if (!str) return "";
+            let s = str.toLocaleLowerCase('tr');
+            s = s.replace(/ç/g, "c").replace(/ğ/g, "g").replace(/ı/g, "i").replace(/ö/g, "o").replace(/ş/g, "s").replace(/ü/g, "u");
+            s = s.replace(/[\d\(\)\.:\-]/g, " "); 
+            s = s.replace(/\b(tema|ders|saati)\b/g, " ");
+            s = s.replace(/\s+/g, " ").trim();
+            return s;
+        }
+
+        // --- GEMINI API ENTEGRASYONU (DİNAMİK API KEY) ---
+        async function generateWithGemini(promptText, userKey) {
+            if (!userKey) {
+                return "<b>HATA:</b> Lütfen sayfanın üst kısmındaki kutuya geçerli bir Google Gemini API anahtarı giriniz.";
+            }
+            try {
+                const response = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: promptText }] }]
+                        })
+                    }
+                );
+
+                if (!response.ok) throw new Error(`API hatası: ${response.status}`);
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Gemini Hatası:", error);
+                return "Üzgünüm, şu anda yapay zeka servisine ulaşılamıyor. API anahtarınızı kontrol ediniz.";
+            }
+        }
+
+        // --- COMPONENTS ---
+
+        function Header({ onLogoClick }) {
+            return (
+                <div className="bg-slate-900 border-b border-slate-800 shadow-sm py-4 mb-8 no-print">
+                    <div className="container mx-auto px-4 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <a href="index.html" className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-900 cursor-pointer hover:opacity-90 transition-opacity no-underline">
+                                <i className="fa-solid fa-home"></i>
+                            </a>
+                            <div>
+                                <h1 className="text-xl font-bold text-white tracking-tight">MEB Uyumlu Günlük Plan Oluşturucu</h1>
+                                <p className="text-xs text-slate-300 font-medium">Türkiye Yüzyılı Maarif Modeli & AI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function APIKeyInput({ apiKey, setApiKey }) {
+            return (
+                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-xl mb-6 flex flex-col md:flex-row md:items-center gap-4 no-print">
+                    <div className="flex-1">
+                        <label className="block text-xs font-bold text-yellow-800 uppercase mb-1">Google Gemini API Anahtarı</label>
+                        <input 
+                            type="password" 
+                            value={apiKey} 
+                            onChange={(e) => {
+                                setApiKey(e.target.value);
+                                localStorage.setItem('gemini_key', e.target.value);
+                            }} 
+                            placeholder="AI Studio API Key yapıştırın..." 
+                            className="w-full border border-yellow-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white"
+                        />
+                    </div>
+                    <div className="text-xs text-yellow-700 md:max-w-xs">
+                        <i className="fa-solid fa-lock mr-1"></i> Anahtarınız sadece tarayıcınızda (Local Storage) saklanır, sunucuya gönderilmez. Güvenlidir.
+                    </div>
+                </div>
+            )
+        }
+
+        function TeacherProfileCard() {
+            const [profile, setProfile] = React.useState({ name: "", school: "", principal: "" });
+            const [isExpanded, setIsExpanded] = React.useState(false);
+
+            React.useEffect(() => {
+                const saved = localStorage.getItem('btyTeacherProfile');
+                if (saved) setProfile(JSON.parse(saved));
+            }, []);
+
+            const handleSave = () => {
+                localStorage.setItem('btyTeacherProfile', JSON.stringify(profile));
+                if (typeof window !== "undefined" && window.dispatchEvent) {
+                    window.dispatchEvent(new CustomEvent("btyProfileUpdated", { detail: profile }));
+                }
+                setIsExpanded(false);
+            };
+
+            const handleChange = (field, value) => {
+                setProfile(prev => ({ ...prev, [field]: value }));
+            };
+
+            return (
+                <div className="bg-white border border-slate-200 rounded-xl p-4 mb-6 shadow-sm no-print">
+                    <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+                        <h3 className="text-slate-800 font-bold flex items-center gap-2 text-sm">
+                            <i className="fa-solid fa-user-tie text-blue-600"></i> Öğretmen Bilgileri / Profil
+                        </h3>
+                        <button className="text-slate-400 hover:text-slate-600">{isExpanded ? '▼' : '▶'}</button>
+                    </div>
+                    
+                    {isExpanded && (
+                        <div className="mt-4 grid md:grid-cols-3 gap-3 animate-slide-up">
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Ad Soyad</label>
+                                <input type="text" value={profile.name} onChange={(e) => handleChange('name', e.target.value)} className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-500 outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Okul Adı</label>
+                                <input type="text" value={profile.school} onChange={(e) => handleChange('school', e.target.value)} className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-500 outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Okul Müdürü</label>
+                                <input type="text" value={profile.principal} onChange={(e) => handleChange('principal', e.target.value)} className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm focus:ring-1 focus:ring-blue-500 outline-none" />
+                            </div>
+                            <div className="md:col-span-3 text-right">
+                                <button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded transition-colors">Kaydet & Kapat</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function InfoBox() {
+            return (
+                <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8 shadow-sm no-print">
+                    <h3 className="text-blue-800 font-bold mb-2 flex items-center gap-2">
+                        <i className="fa-solid fa-circle-info"></i> BTY Dersi Pedagojik Çerçeve
+                    </h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                        Bilişim Teknolojileri ve Yazılım dersi için farklılaştırma; öğrencilerin dijital okuryazarlık seviyelerine, ilgi alanlarına ve öğrenme hızlarına göre içerik, süreç ve ürünün uyarlanmasını kapsar. Bu araç, müfredattaki <strong>Zenginleştirme</strong> ve <strong>Destekleme</strong> etkinliklerine hızlı erişim sağlar ve yapay zeka ile yeni fikirler üretir.
+                    </p>
+                </div>
+            );
+        }
+
+        function FilterBar({ onSearch }) {
+            const [selectedClass, setSelectedClass] = React.useState("");
+            const [selectedLesson, setSelectedLesson] = React.useState("");
+            const [selectedUnit, setSelectedUnit] = React.useState("");
+
+            const classes = Object.keys(DIFFERENTIATION_DATA);
+            const lessons = selectedClass ? Object.keys(DIFFERENTIATION_DATA[selectedClass] || {}) : [];
+            const units = (selectedClass && selectedLesson) ? Object.keys(DIFFERENTIATION_DATA[selectedClass][selectedLesson] || {}) : [];
+
+            const handleShowClick = () => {
+                if(selectedClass && selectedLesson && selectedUnit) {
+                    const data = DIFFERENTIATION_DATA[selectedClass][selectedLesson][selectedUnit];
+                    onSearch(data, { grade: selectedClass, lesson: selectedLesson, unit: selectedUnit });
+                } else {
+                    alert("Lütfen bir Öğrenme Alanı/Tema seçiniz.");
+                }
+            };
+
+            return (
+                <div className="bg-white p-5 rounded-2xl shadow-xl shadow-slate-200 border border-slate-100 flex flex-col md:flex-row gap-4 items-center mb-8 no-print">
+                    <div className="w-full relative group">
+                        <label className="text-xs text-slate-400 font-semibold uppercase ml-1 mb-1 block">Sınıf Düzeyi</label>
+                        <select className="w-full appearance-none bg-slate-50 border border-slate-200 hover:border-blue-400 px-4 py-3 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-100 custom-select text-slate-700 transition-colors" value={selectedClass} onChange={(e) => {setSelectedClass(e.target.value); setSelectedLesson(""); setSelectedUnit("");}}>
+                            <option value="">Seçiniz...</option>
+                            {classes.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                    </div>
+                    <div className="w-full relative group">
+                        <label className="text-xs text-slate-400 font-semibold uppercase ml-1 mb-1 block">Ders</label>
+                        <select className="w-full appearance-none bg-slate-50 border border-slate-200 hover:border-blue-400 px-4 py-3 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-100 custom-select text-slate-700 disabled:bg-slate-100 disabled:text-slate-400 transition-colors" value={selectedLesson} onChange={(e) => {setSelectedLesson(e.target.value); setSelectedUnit("");}} disabled={!selectedClass}>
+                            <option value="">Ders Seçiniz...</option>
+                            {lessons.map(l => <option key={l} value={l}>{l}</option>)}
+                        </select>
+                    </div>
+                    <div className="w-full relative group">
+                        <label className="text-xs text-slate-400 font-semibold uppercase ml-1 mb-1 block">Tema / Ünite</label>
+                        <select className="w-full appearance-none bg-slate-50 border border-slate-200 hover:border-blue-400 px-4 py-3 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-100 custom-select text-slate-700 disabled:bg-slate-100 disabled:text-slate-400 transition-colors" value={selectedUnit} onChange={(e) => setSelectedUnit(e.target.value)} disabled={!selectedLesson}>
+                            <option value="">Tema Seçiniz...</option>
+                            {units.map(u => <option key={u} value={u}>{u}</option>)}
+                        </select>
+                    </div>
+                    <div className="w-full md:w-auto mt-6">
+                        <button onClick={handleShowClick} disabled={!selectedUnit} className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-medium py-3 px-8 rounded-lg shadow-lg shadow-blue-200 transition duration-200 flex items-center justify-center gap-2">
+                            <span>Getir</span>
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        function AIAssistant({ context, apiKey }) {
+            const [loading, setLoading] = React.useState(false);
+            const [response, setResponse] = React.useState(null);
+            const [activeTab, setActiveTab] = React.useState('ideas'); 
+            const [customPrompt, setCustomPrompt] = React.useState("");
+
+            const handleGenerate = async (type) => {
+                setLoading(true);
+                setResponse(null);
+                
+                let prompt = "";
+                const baseInfo = `Sınıf: ${context.grade}, Ders: ${context.lesson}, Tema: ${context.unit}. Türkiye Yüzyılı Maarif Modeli Bilişim Teknolojileri ve Yazılım dersi öğretim programına uygun olarak;`;
+
+                if (type === 'enrichment') {
+                    prompt = `${baseInfo} üst düzey dijital becerilere sahip veya konuya ilgisi yüksek öğrenciler için (Zenginleştirme) 3 adet yenilikçi, yaratıcı ve uygulanabilir sınıf içi etkinlik önerisi yaz. Kodlama, tasarım veya analiz içerebilir. ÇIKTIYI SADECE BİR ADET HTML TABLO OLARAK VER. Tablo dışında hiçbir şey yazma. Tablo sütunları: 1) Etkinlik Adı 2) Amaç / Hedef 3) Hedef Grup 4) Süre (dk) 5) Kısaca Uygulama 6) Gerekli Materyaller. En az 3 satır yaz.`;
+                } else if (type === 'support') {
+                    prompt = `${baseInfo} öğrenme güçlüğü çeken veya dijital okuryazarlığı düşük öğrenciler için (Destekleme) 3 adet somutlaştırıcı, sadeleştirici ve motive edici etkinlik önerisi yaz. Unplugged (bilgisayarsız) etkinlikler de olabilir. Hedef grup: öğrenme güçlüğü yaşayan, dijital okuryazarlığı sınırlı, dikkati çabuk dağılan öğrenciler. ÇIKTIYI SADECE BİR ADET HTML TABLO OLARAK VER. Tablo dışında hiçbir şey yazma. Tablo sütunları: 1) Etkinlik Adı 2) Amaç / Hedef 3) Hedef Grup 4) Süre (dk) 5) Kısaca Uygulama 6) Gerekli Materyaller. En az 3 satır yaz.`;
+                } else if (type === 'material') {
+                    prompt = `${baseInfo} bu konuyu anlatırken kullanılabilecek 5 adet dijital araç, yazılım, web sitesi veya somut materyal önerisi sun. Neden önerdiğini ve derste nasıl kullanılacağını bir cümleyle açıkla. ÇIKTIYI SADECE BİR ADET HTML TABLO OLARAK VER. Tablo dışında hiçbir şey yazma. Sütunlar: 1) Araç / Materyal 2) Türü 3) Ne İşe Yarar? 4) Derste Nasıl Kullanılır? 5) Dikkat / Not. En az 5 satır yaz.`;
+                } else if (type === 'custom') {
+                    prompt = `${baseInfo} Öğretmenin özel isteği: "${customPrompt}". Bu isteğe uygun pedagojik ve pratik bir çözüm/etkinlik önerisi sun. ÇIKTIYI SADECE BİR ADET HTML TABLO OLARAK VER. Tablo dışında hiçbir şey yazma. Sütunlar: 1) Başlık 2) Önerilen Strateji 3) Uygulama Adımları. 1–3 satır yaz.`;
+                }
+
+                const result = await generateWithGemini(prompt, apiKey);
+                setResponse({ type, text: result });
+                setLoading(false);
+            };
+
+            return (
+                <div className="mt-8 border-t border-slate-200 pt-8 no-print">
+                    <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl p-6 border border-slate-200">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="text-2xl">🤖</span>
+                            <h3 className="text-lg font-bold text-slate-800">Yapay Zeka Asistanı (Gemini)</h3>
+                        </div>
+                        
+                        <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                            <button onClick={() => setActiveTab('ideas')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'ideas' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}>✨ Yeni Etkinlik Fikirleri</button>
+                            <button onClick={() => setActiveTab('material')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'material' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}>🧠 Araç & Materyal</button>
+                            <button onClick={() => setActiveTab('custom')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'custom' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}>🎯 Özel Durum</button>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-4 shadow-sm min-h-[150px] border border-slate-100">
+                            {activeTab === 'ideas' && (
+                                <div className="space-y-3">
+                                    <p className="text-sm text-slate-600 mb-2">Bu tema için yapay zekadan anlık olarak yeni etkinlikler isteyin:</p>
+                                    <div className="flex gap-3">
+                                        <button onClick={() => handleGenerate('enrichment')} disabled={loading} className="flex-1 bg-purple-100 hover:bg-purple-200 text-purple-800 py-2 px-4 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2">{loading ? 'Üretiliyor...' : '🚀 Zenginleştirme Üret'}</button>
+                                        <button onClick={() => handleGenerate('support')} disabled={loading} className="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-800 py-2 px-4 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2">{loading ? 'Üretiliyor...' : '🤝 Destekleme Üret'}</button>
+                                    </div>
+                                </div>
+                            )}
+                            {activeTab === 'material' && (
+                                <div>
+                                    <p className="text-sm text-slate-600 mb-3">Bu tema için en uygun dijital araç ve materyal önerilerini listeleyin:</p>
+                                    <button onClick={() => handleGenerate('material')} disabled={loading} className="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-4 rounded-lg text-sm font-semibold transition-colors border border-blue-200">{loading ? 'Araçlar Bulunuyor...' : '📚 Dijital Araç Önerilerini Getir'}</button>
+                                </div>
+                            )}
+                            {activeTab === 'custom' && (
+                                <div>
+                                    <p className="text-sm text-slate-600 mb-2">Özel bir öğrenci durumu veya sınıf ihtiyacı belirtin:</p>
+                                    <textarea value={customPrompt} onChange={(e) => setCustomPrompt(e.target.value)} placeholder="Örn: Sınıfımda bilgisayar yok, bu konuyu unplugged (bilgisayarsız) nasıl işleyebilirim?" className="w-full border border-slate-300 rounded-lg p-3 text-sm mb-3 focus:ring-2 focus:ring-blue-200 focus:outline-none" rows="2"></textarea>
+                                    <button onClick={() => handleGenerate('custom')} disabled={loading || !customPrompt.trim()} className="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-800 py-2 px-4 rounded-lg text-sm font-semibold transition-colors disabled:opacity-50">{loading ? 'Düşünülüyor...' : '💡 Asistana Sor'}</button>
+                                </div>
+                            )}
+
+                            {loading && (
+                                <div className="mt-4 flex flex-col items-center justify-center py-4 text-slate-400">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-2"></div>
+                                    <span className="text-xs">Gemini düşünüyor...</span>
+                                </div>
+                            )}
+
+                            {response && !loading && (
+                                <div className="mt-4 pt-4 border-t border-slate-100 animate-slide-up">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gemini Yanıtı:</span>
+                                        <button onClick={() => setResponse(null)} className="text-slate-400 hover:text-red-500 text-xs">Temizle</button>
+                                    </div>
+                                    <div className="ai-response bg-white p-4 rounded-lg border border-slate-100 shadow-sm text-slate-700 overflow-x-auto" dangerouslySetInnerHTML={{ __html: response.text }} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- GÜNLÜK PLAN OLUŞTURUCU ---
+        function DailyPlanSection({ data, meta, apiKey }) {
+            const [teacherName, setTeacherName] = React.useState("");
+            const [schoolName, setSchoolName] = React.useState("");
+            const [className, setClassName] = React.useState("");
+            const [principalName, setPrincipalName] = React.useState("");
+            const [date, setDate] = React.useState("");
+            const [lessonName, setLessonName] = React.useState("Bilişim Teknolojileri ve Yazılım");
+            
+            const [selectedOutcomes, setSelectedOutcomes] = React.useState([]);
+            const [hasInclusionStudents, setHasInclusionStudents] = React.useState(false);
+            const [planResult, setPlanResult] = React.useState(null);
+            const [loading, setLoading] = React.useState(false);
+
+            React.useEffect(() => {
+                const saved = localStorage.getItem('btyTeacherProfile');
+                if (saved) {
+                    const p = JSON.parse(saved);
+                    if(p.name) setTeacherName(p.name);
+                    if(p.school) setSchoolName(p.school);
+                    if(p.principal) setPrincipalName(p.principal);
+                }
+            }, []);
+
+            const currentOutcomes = React.useMemo(() => {
+                const gradeOutcomes = LEARNING_OUTCOMES[meta.grade] || {};
+                const normalizedTitle = normalizeThemeName(data.title);
+                const filtered = Object.entries(gradeOutcomes).filter(([code, obj]) => {
+                    const normalizedOutcomeTheme = normalizeThemeName(obj.theme);
+                    return normalizedOutcomeTheme && (normalizedTitle.includes(normalizedOutcomeTheme) || normalizedOutcomeTheme.includes(normalizedTitle));
+                });
+                return filtered.length > 0 ? filtered : Object.entries(gradeOutcomes);
+            }, [meta.grade, data.title]);
+
+            const handleOutcomeChange = (e) => {
+                const options = e.target.options;
+                const newSelected = [];
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].selected) {
+                        newSelected.push({ code: options[i].value, text: options[i].getAttribute('data-text') });
+                    }
+                }
+                setSelectedOutcomes(newSelected);
+            };
+
+            const handleGeneratePlan = async () => {
+                if (!teacherName || !className || !date || selectedOutcomes.length === 0) {
+                    alert("Lütfen en azından Öğretmen Adı, Sınıf, Tarih alanlarını doldurun ve en az bir Kazanım seçin.");
+                    return;
+                }
+                setLoading(true);
+                setPlanResult(null);
+
+                const enrichmentList = data.enrichment.map(item => `- ${item}`).join("\n");
+                const supportList = data.support.map(item => `- ${item}`).join("\n");
+                const outcomeCodesStr = selectedOutcomes.map(o => o.code).join(", ");
+                const outcomeFullStr = selectedOutcomes.map(o => `${o.code}: ${o.text}`).join("\n");
+                const inclusionPrompt = hasInclusionStudents ? "ÖNEMLİ: Sınıfta kaynaştırma/özel gereksinimli öğrenciler var. 'Açıklamalar' tablosunda onlar için 1-2 cümlelik özel uyarlama önerisi yaz." : "";
+
+                const prompt = `Sen Türkiye'de çalışan deneyimli bir Bilişim Teknolojileri öğretmeni ve plan uzmanısın. MEB formatına uygun GÜNLÜK PLAN oluştur.
+                Öğretmen: ${teacherName}, Okul: ${schoolName}, Sınıf: ${className}, Ders: ${lessonName}, Tarih: ${date}, Müdür: ${principalName}.
+                Tema: ${data.title}. Sınıf: ${meta.grade}. Ders: ${meta.lesson}.
+                KAZANIMLAR: ${outcomeCodesStr}\n${outcomeFullStr}.
+                ELDEKİ MATERYALLER (Zenginleştirme): ${enrichmentList}. (Destekleme): ${supportList}.
+                ${inclusionPrompt}
+                ÇIKTI FORMATI: Sadece HTML TABLOLAR. 5 Tablo: 1) Temel Bilgiler, 2) Pedagojik Gövde (Yöntem, Araç, Etkinlikler), 3) Ölçme-Değerlendirme, 4) Açıklamalar, 5) İmza. Türkçe.`;
+
+                const result = await generateWithGemini(prompt, apiKey);
+                setPlanResult(result);
+                setLoading(false);
+            };
+
+            const copyToClipboard = () => {
+                const el = document.createElement('div');
+                el.innerHTML = planResult;
+                document.body.appendChild(el);
+                window.getSelection().removeAllRanges();
+                const range = document.createRange();
+                range.selectNode(el);
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                alert("Plan kopyalandı!");
+            };
+
+            return (
+                <div className="mt-8 border-t border-slate-200 pt-8">
+                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 no-print">
+                        <div className="flex items-center gap-3 mb-6 border-b border-blue-100 pb-3">
+                            <span className="text-2xl">📅</span>
+                            <h3 className="text-lg font-bold text-slate-800">MEB Uyumlu Günlük Plan Oluşturucu</h3>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-4 mb-4">
+                            <div><label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Öğretmen Adı</label><input type="text" value={teacherName} onChange={e => setTeacherName(e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-200" /></div>
+                            <div><label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Okul Adı</label><input type="text" value={schoolName} onChange={e => setSchoolName(e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-200" /></div>
+                            <div><label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Sınıf / Şube</label><input type="text" value={className} onChange={e => setClassName(e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-200" /></div>
+                            <div><label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Tarih</label><input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-200" /></div>
+                            <div><label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Okul Müdürü</label><input type="text" value={principalName} onChange={e => setPrincipalName(e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-200" /></div>
+                            <div className="md:col-span-2">
+                                <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Kazanım Seçimi (Çoklu seçim için Ctrl/Cmd basılı tutun)</label>
+                                <select multiple className="w-full border border-slate-300 rounded px-3 py-2 text-sm h-32 outline-none focus:ring-2 focus:ring-blue-200" onChange={handleOutcomeChange}>
+                                    {currentOutcomes.map(([code, obj]) => (
+                                        <option key={code} value={code} data-text={obj.text}>{code} - {obj.text.substring(0, 80)}...</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="md:col-span-2"><label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={hasInclusionStudents} onChange={e => setHasInclusionStudents(e.target.checked)} className="w-4 h-4 text-blue-600 rounded" /><span className="text-sm text-slate-700">Sınıfta kaynaştırma öğrencisi var</span></label></div>
+                        </div>
+                        <button onClick={handleGeneratePlan} disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg shadow transition duration-200 flex items-center justify-center gap-2">{loading ? 'Plan Hazırlanıyor...' : '📄 Günlük Planı Oluştur'}</button>
+                    </div>
+                    {planResult && (
+                        <div id="printable-area" className="mt-8 bg-white p-8 rounded-2xl shadow-lg border border-slate-200 animate-slide-up">
+                            <div className="flex justify-between items-center mb-6 no-print">
+                                <h4 className="font-bold text-slate-800 text-lg">Oluşturulan Günlük Plan</h4>
+                                <button onClick={copyToClipboard} className="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded text-sm font-medium border border-blue-100">Kopyala</button>
+                            </div>
+                            <div className="plan-table prose max-w-none text-gray-800" dangerouslySetInnerHTML={{ __html: planResult }} />
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function ActivitySection({ title, items, type }) {
+            const colorClass = type === 'enrichment' ? 'text-purple-800 bg-purple-50 border-purple-200' : 'text-amber-800 bg-amber-50 border-amber-200';
+            return (
+                <div className={`rounded-xl border overflow-hidden h-full ${type === 'enrichment' ? 'border-purple-200' : 'border-amber-200'}`}>
+                    <div className={`${type === 'enrichment' ? 'bg-purple-50' : 'bg-amber-50'} px-5 py-3 border-b flex items-center gap-2 ${type === 'enrichment' ? 'border-purple-200' : 'border-amber-200'}`}>
+                        <h3 className={`font-bold ${type === 'enrichment' ? 'text-purple-800' : 'text-amber-800'}`}>{title}</h3>
+                    </div>
+                    <div className="p-5 bg-white h-full">
+                        <ul className="space-y-4">
+                            {items.map((item, idx) => (
+                                <li key={idx} className="flex gap-3 text-sm text-slate-700"><span className="font-bold">{idx + 1}.</span> {item}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        function ResultCard({ data, meta, apiKey }) {
+            if (!data) return null;
+            return (
+                <div className="mt-8 animate-slide-up pb-20">
+                    <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                        <div className="bg-slate-800 text-white px-8 py-6 no-print">
+                            <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{meta.grade} • {meta.lesson}</p>
+                            <h2 className="text-2xl font-bold">{data.title}</h2>
+                        </div>
+                        <div className="p-8">
+                            <div className="grid md:grid-cols-2 gap-8 mb-8 no-print">
+                                <ActivitySection title="Zenginleştirme (Enrichment)" items={data.enrichment} type="enrichment" />
+                                <ActivitySection title="Destekleme (Support)" items={data.support} type="support" />
+                            </div>
+                            <AIAssistant context={{ ...meta, unit: data.title }} apiKey={apiKey} />
+                            <DailyPlanSection data={data} meta={meta} apiKey={apiKey} />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            const [resultData, setResultData] = React.useState(null);
+            const [metaData, setMetaData] = React.useState(null);
+            const [loading, setLoading] = React.useState(false);
+            const [apiKey, setApiKey] = React.useState(localStorage.getItem('gemini_key') || '');
+
+            const handleSearch = (data, meta) => {
+                setLoading(true);
+                setResultData(null);
+                setTimeout(() => { setResultData(data); setMetaData(meta); setLoading(false); }, 400);
+            };
+
+            const handleLogoClick = () => {
+                window.location.reload();
+            };
+
+            return (
+                <div className="min-h-screen bg-[#f8fafc]">
+                    <Header onLogoClick={handleLogoClick} />
+                    
+                    <main className="container mx-auto px-4 max-w-6xl">
+                        {/* API Key Input (Safe Zone) */}
+                        <APIKeyInput apiKey={apiKey} setApiKey={setApiKey} />
+
+                        {/* Öğretmen Profili */}
+                        <TeacherProfileCard />
+
+                        <div className="text-center mb-10 no-print">
+                            <h2 className="text-3xl font-extrabold text-slate-800 mb-3 tracking-tight">Farklılaştırılmış Etkinlik Havuzu</h2>
+                            <p className="text-slate-500 max-w-2xl mx-auto">
+                                <span className="text-blue-600 font-semibold">Bilişim Teknolojileri ve Yazılım</span> dersi için müfredat etkinliklerine ve <span className="text-blue-600 font-semibold">Yapay Zeka (Gemini)</span> önerilerine buradan ulaşabilirsiniz.
+                            </p>
+                        </div>
+
+                        <InfoBox />
+
+                        <FilterBar onSearch={handleSearch} />
+
+                        {loading && (
+                            <div className="flex flex-col items-center mt-16 no-print">
+                                <div className="animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-t-blue-600 mb-4"></div>
+                                <span className="text-blue-600 font-medium animate-pulse">Etkinlikler getiriliyor...</span>
+                            </div>
+                        )}
+
+                        {!loading && !resultData && (
+                            <div className="mt-12 text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 no-print">
+                                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-300">
+                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-lg font-medium text-slate-900">Henüz seçim yapılmadı</h3>
+                                <p className="text-slate-500 mt-1">Lütfen yukarıdaki menüden sınıf ve tema seçiniz.</p>
+                            </div>
+                        )}
+
+                        <ResultCard data={resultData} meta={metaData} apiKey={apiKey} />
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

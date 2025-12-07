@@ -13,179 +13,150 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: {
-                        'bty-dark': '#020617',
-                        'bty-card': 'rgba(15, 23, 42, 0.88)',
-                        'bty-accent': '#38bdf8',
-                        'bty-soft': '#0f172a'
+                    animation: {
+                        'blob': 'blob 7s infinite',
                     },
-                    boxShadow: {
-                        'neon': '0 0 20px rgba(56, 189, 248, 0.6)'
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(circle at top, rgba(56,189,248,0.20), transparent 60%)',
-                        'gradient-soft': 'linear-gradient(145deg, rgba(15,23,42,0.95), rgba(15,23,42,0.98))'
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
                     }
                 }
             }
         }
     </script>
-
     <style>
-        * {
-            box-sizing: border-box;
+        /* Glassmorphism Stilleri */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: radial-gradient(circle at top, rgba(56,189,248,0.10), #020617 55%);
-            color: #e2e8f0;
+        .glass-header {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        body { background-color: #0f172a; color: #e2e8f0; }
+        
+        /* Özel Select Box Tasarımı */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.7rem auto;
+            background-color: rgba(30, 41, 59, 0.5);
+            color: white;
+            border: 1px solid #475569;
+        }
+        
+        /* İçerik Göster/Gizle Mantığı - BASİTLEŞTİRİLDİ */
+        .content-panel {
+            display: none; /* Varsayılan olarak hepsi gizli */
+            flex-direction: column;
+            gap: 0.5rem;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        
+        /* Sadece 'active' sınıfı olan görünür */
+        .content-panel.active {
+            display: flex;
         }
 
-        .glass-card {
-            background: rgba(15, 23, 42, 0.92);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(148, 163, 184, 0.28);
-            box-shadow:
-                0 18px 45px rgba(15, 23, 42, 0.95),
-                0 0 40px rgba(56, 189, 248, 0.18);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .resource-link {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.55rem 0.6rem;
-            margin-bottom: 0.35rem;
-            border-radius: 0.75rem;
-            background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(15,23,42,0.92));
-            border: 1px solid rgba(148,163,184,0.35);
-            font-size: 0.85rem;
-            text-decoration: none;
-            color: #e5e7eb;
-            transition: all 0.18s ease-out;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
         }
-
         .resource-link:hover {
-            border-color: rgba(56,189,248,0.8);
-            box-shadow:
-                0 0 14px rgba(56,189,248,0.35),
-                0 10px 25px rgba(15,23,42,0.95);
-            transform: translateY(-1px);
-            background: radial-gradient(circle at top left, rgba(56,189,248,0.10), rgba(15,23,42,0.96));
-        }
-
-        .resource-link i {
-            font-size: 1.1rem;
-        }
-
-        .content-panel {
-            display: none;
-            animation: fadeIn 0.25s ease-out;
-        }
-
-        .content-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .page-container {
-            min-height: 100vh;
-            background-image:
-                radial-gradient(circle at top left, rgba(56,189,248,0.20), transparent 55%),
-                radial-gradient(circle at bottom right, rgba(94,234,212,0.16), transparent 60%);
-            background-color: #020617;
-        }
-
-        .glass-header {
-            background: rgba(15, 23, 42, 0.96);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-            box-shadow:
-                0 18px 35px rgba(15,23,42,0.90),
-                0 0 25px rgba(56,189,248,0.22);
-        }
-
-        .tag-pill {
-            border-radius: 9999px;
-            padding: 0.25rem 0.7rem;
-            border: 1px solid rgba(148,163,184,0.6);
-            background: radial-gradient(circle at top left, rgba(56,189,248,0.20), rgba(15,23,42,0.98));
-            font-size: 0.75rem;
-            text-transform: uppercase;
-        }
-
-        select {
-            appearance: none;
-            background-color: rgba(15,23,42,0.95);
-            border: 1px solid rgba(148,163,184,0.7);
-            padding-right: 2.5rem;
-            background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1rem;
-            border-radius: 0.75rem;
-            color: #e5e7eb;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: rgba(56,189,248,0.85);
-            box-shadow:
-                0 0 0 1px rgba(56,189,248,0.35),
-                0 0 20px rgba(56,189,248,0.25);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
         }
     </style>
 </head>
-<body class="page-container">
+<body class="min-h-screen relative overflow-x-hidden selection:bg-pink-500 selection:text-white font-sans">
 
-    <!-- ÜST BAR -->
-    <header class="glass-header sticky top-0 z-20">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-2xl bg-sky-500/10 border border-sky-400/50 flex items-center justify-center shadow-neon">
-                    <i class="fa-solid fa-microchip text-sky-300 text-lg"></i>
+    <!-- ARKA PLAN -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass-header fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 group">
+                        <i class="fa-solid fa-microchip text-pink-400 text-3xl group-hover:rotate-12 transition"></i>
+                        <span class="font-bold text-xl tracking-wider text-gray-100">Keskin<span class="text-pink-400">Bilişim</span>BTY</span>
+                    </a>
                 </div>
-                <div>
-                    <h1 class="text-sm font-semibold tracking-wide text-sky-100">
-                        Keskin Bilişim BTY
-                    </h1>
-                    <p class="text-[11px] text-slate-400 leading-tight">
-                        5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi • Maarif Modeli
-                    </p>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Anasayfa</a>
+                    <!-- AKTİF SAYFA: PEMBE -->
+                    <a href="5-sinif.html" class="text-pink-400 font-bold border-b-2 border-pink-400 pb-1">5. Sınıf</a>
+                    <a href="6-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">6. Sınıf</a>
+                    <a href="yapay-zeka.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Yapay Zekâ</a>
+                    <a href="robotik.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
+                     <a href="evraklar.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Evraklar</a>
+                    <a href="iletisim.html" class="bg-pink-600 hover:bg-pink-500 text-white px-5 py-2 rounded-full transition shadow-lg shadow-pink-500/30">İletişim</a>
                 </div>
-            </div>
-            <div class="hidden sm:flex items-center gap-2">
-                <span class="tag-pill text-sky-200">
-                    2024 - 2025
-                </span>
-                <span class="tag-pill text-emerald-200 border-emerald-400/60 bg-emerald-500/10">
-                    Ünite Materyal Merkezi
-                </span>
             </div>
         </div>
+        <!-- Mobil Menü -->
+        <div id="mobile-menu" class="hidden glass-header border-t border-gray-700">
+            <a href="index.html" class="block py-3 px-4 text-pink-400 font-medium">Anasayfa</a>
+            <a href="5-sinif.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">5. Sınıf BTY</a>
+            <a href="6-sinif.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">6. Sınıf BTY</a>
+            <a href="yapay-zeka.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Yapay Zekâ</a>
+            <a href="robotik.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Robotik Kodlama</a>
+            <a href="evraklar.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Evraklar</a>
+            <a href="iletisim.html" class="block py-3 px-4 bg-pink-600 hover:bg-pink-500 text-white text-center rounded-b-lg transition">İletişim</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-40 pb-16 px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            5. Sınıf <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">Materyal Arşivi</span>
+        </h1>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Konuyu seçin, tüm ders materyalleri (Slayt, Video, Test, İnfografik) anında listelensin.
+        </p>
     </header>
 
     <!-- ANA İÇERİK -->
-    <main class="max-w-6xl mx-auto px-4 py-6 sm:py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <main class="max-w-7xl mx-auto px-4 pb-24">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             <!-- 1. TEMA: Bilişim Teknolojilerinin Hayatımızdaki Yeri -->
             <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-pink-500/30 transition duration-500">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold tracking-wide uppercase text-pink-200 border border-pink-400/40 px-2 py-1 rounded-full bg-pink-400/10">Tema 1</span>
+                    <span class="text-xs font-bold tracking-widest text-pink-400 uppercase border border-pink-400/20 px-2 py-1 rounded bg-pink-400/5">Tema 1</span>
                     <i class="fa-solid fa-computer text-pink-300 text-2xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white mb-6">Bilişim Teknolojilerinin Hayatımızdaki Yeri</h2>
 
                 <!-- MENÜ -->
                 <div class="mb-4">
-                    <select onchange="showContent('tema1', this.value)" class="w-full px-3 py-2 rounded-lg bg-slate-900/90 text-slate-100 text-sm border border-slate-600 focus:outline-none">
+                    <select onchange="showContent('tema1', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
                         <option value="t1-k1">1. Bilişim Teknolojilerine Giriş</option>
                         <option value="t1-k2">2. BT'nin Etkileri ve Sağlık</option>
@@ -202,494 +173,230 @@
                     
                     <!-- Konu 1 -->
                     <div id="t1-k1" class="content-panel">
-                        <a href="#"
-                           onclick="openPreview('tema1-frame','tema1-preview','https://drive.google.com/file/d/1QllEDo47BChF_9fl5d-4NYIFmD97E6RZ/view?usp=sharing'); return false;"
-                           class="resource-link">
-                            <i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i>
-                            <span class="text-sm">Bilişim Dünyası</span>
-                        </a>
-                        <a href="#"
-                           onclick="openPreview('tema1-frame','tema1-preview','https://drive.google.com/file/d/1ho0Nwgvw_uU7LzUqKNHUp2bN5ufTeUR9/view?usp=sharing'); return false;"
-                           class="resource-link">
-                            <i class="fa-solid fa-image text-purple-400 w-8 text-center"></i>
-                            <span class="text-sm">Bilişim Nedir?</span>
-                        </a>
-                        <a href="#"
-                           onclick="openPreview('tema1-frame','tema1-preview','https://drive.google.com/file/d/1C4_4Iq1qsGDjNgQCqQH44q_Fyxc9gueh/view?usp=sharing'); return false;"
-                           class="resource-link">
-                            <i class="fa-solid fa-image text-emerald-400 w-8 text-center"></i>
-                            <span class="text-sm">Bilişim Dünyasının 5 Anahtarı</span>
-                        </a>
-                        <a href="#"
-                           onclick="openPreview('tema1-frame','tema1-preview','https://drive.google.com/file/d/1yrLG1PWDOdYO8cchfDl6cneFnMSQYZ3h/view?usp=sharing'); return false;"
-                           class="resource-link">
-                            <i class="fa-solid fa-image text-sky-400 w-8 text-center"></i>
-                            <span class="text-sm">BİT Bileşenleri</span>
-                        </a>
-                        <a href="#"
-                           onclick="openPreview('tema1-frame','tema1-preview','https://youtu.be/rzhd3dpLysg?si=T-W7WB9PksRyXHQl'); return false;"
-                           class="resource-link">
-                            <i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i>
-                            <span class="text-sm">Bilişim Dünyasına Yolculuk</span>
-                        </a>
+                        <a href="https://drive.google.com/file/d/1QllEDo47BChF_9fl5d-4NYIFmD97E6RZ/view?usp=sharing" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Bilişim Dünyası</span></a>
+                        <a href="https://drive.google.com/file/d/1ho0Nwgvw_uU7LzUqKNHUp2bN5ufTeUR9/view?usp=sharing" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Bilişim Nedir?</span></a>
+                        <a href="https://drive.google.com/file/d/1C4_4Iq1qsGDjNgQCqQH44qI-DojoU7MZ/view?usp=sharing" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Bilişim Dünyasının 5 Anahtarı</span></a>
+                        <a href="https://drive.google.com/file/d/1yrLG1PWDOdYO8cchfDl6cnVblQ3x2dit/view?usp=sharing" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Bit Bileşenleri</span></a>
+                        <a href="https://youtu.be/rzhd3dpLysg?si=T-W7WB9PksRyXHQl" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Bilişim Dünyasına Yolculuk</span></a>
                     </div>
-
                     <!-- Konu 2 -->
                     <div id="t1-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-file-powerpoint text-amber-300 w-8 text-center"></i>
-                            <span class="text-sm">Ergonomi Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-image text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Doğru Oturuş İnfografiği</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Ergonomi Sunusu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Doğru Oturuş İnfografiği</span></a>
                     </div>
-
                     <!-- Konu 3 -->
                     <div id="t1-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-file-powerpoint text-fuchsia-300 w-8 text-center"></i>
-                            <span class="text-sm">Dijital Vatandaşlık Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-image text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">Dijital Ayak İzi Rehberi</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-scroll text-indigo-300 w-8 text-center"></i>
-                            <span class="text-sm">Dijital Yurttaş Kimdir?</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-pdf text-blue-400 w-8 text-center"></i><span class="text-sm">Dijital Ayak İzi Rehberi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Dijital Yurttaş Kimdir?</span></a>
                     </div>
-
                     <!-- Konu 4 -->
                     <div id="t1-k4" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-brain text-pink-300 w-8 text-center"></i>
-                            <span class="text-sm">Yapay Zekâ Nedir? (Sunum)</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-film text-purple-300 w-8 text-center"></i>
-                            <span class="text-sm">Makine Öğrenmesi Animasyonu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-brain text-pink-400 w-8 text-center"></i><span class="text-sm">Yapay Zekâ Nedir? (Sunum)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Makine Öğrenmesi Animasyonu</span></a>
                     </div>
-
                     <!-- Konu 5 -->
                     <div id="t1-k5" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-microchip text-cyan-300 w-8 text-center"></i>
-                            <span class="text-sm">Donanım Parçaları Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-puzzle-piece text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Donanım Eşleştirme Oyunu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-microchip text-yellow-400 w-8 text-center"></i><span class="text-sm">Donanım Parçaları Sunusu</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-gamepad text-green-400 w-8 text-center"></i><span class="text-sm">Donanım Eşleştirme Oyunu</span></a>
                     </div>
-
                     <!-- Konu 6 -->
                     <div id="t1-k6" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-folder-tree text-blue-400 w-8 text-center"></i>
-                            <span class="text-sm">Klasör Yapısı Örneği</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-file-export text-indigo-300 w-8 text-center"></i>
-                            <span class="text-sm">Dosya Uzantıları Listesi</span>
-                        </a>
-                    </div>
-
-                    <!-- Tema 1 Önizleme Alanı -->
-                    <div id="tema1-preview" class="mt-4 hidden">
-                        <div class="text-xs text-gray-400 mb-2">
-                            Seçtiğiniz materyal aşağıda önizleme olarak açılır. (Google Drive / YouTube)
-                        </div>
-                        <iframe
-                            id="tema1-frame"
-                            class="w-full h-96 rounded-xl bg-slate-900/60 border border-slate-700"
-                            src=""
-                            allow="fullscreen"
-                        ></iframe>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-folder-open text-blue-400 w-8 text-center"></i><span class="text-sm">Klasör Yapısı Uygulaması</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-zipper text-orange-400 w-8 text-center"></i><span class="text-sm">Dosya Uzantıları Listesi</span></a>
                     </div>
                 </div>
             </div>
 
             <!-- 2. TEMA: Dijital Ürün Tasarımı -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-sky-500/30 transition duration-500">
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-purple-500/30 transition duration-500">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold tracking-wide uppercase text-sky-200 border border-sky-400/40 px-2 py-1 rounded-full bg-sky-400/10">Tema 2</span>
-                    <i class="fa-solid fa-palette text-sky-300 text-2xl"></i>
+                    <span class="text-xs font-bold tracking-widest text-purple-400 uppercase border border-purple-400/20 px-2 py-1 rounded bg-purple-400/5">Tema 2</span>
+                    <i class="fa-solid fa-pen-ruler text-purple-300 text-2xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white mb-6">Dijital Ürün Tasarımı ve Geliştirme</h2>
 
                 <div class="mb-4">
-                    <select onchange="showContent('tema2', this.value)" class="w-full px-3 py-2 rounded-lg bg-slate-900/90 text-slate-100 text-sm border border-slate-600 focus:outline-none">
+                    <select onchange="showContent('tema2', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
-                        <option value="t2-k1">1. Görsel Düzenleme Programlarına Giriş</option>
-                        <option value="t2-k2">2. Görsel Tasarım ve Ürün Oluşturma</option>
-                        <option value="t2-k3">3. Kelime İşlemci Programları</option>
-                        <option value="t2-k4">4. Kelime İşlemci ile Belge Geliştirme</option>
-                        <option value="t2-k5">5. Sunum Programlarına Giriş</option>
-                        <option value="t2-k6">6. Sunum Dosyası Geliştirme</option>
+                        <option value="t2-k1">1. Görsel Düzenleme Programları</option>
+                        <option value="t2-k2">2. Görsel Kurgu Oluşturma</option>
+                        <option value="t2-k3">3. Görsel Dosyası Geliştirme</option>
+                        <option value="t2-k4">4. Kelime İşlemci Programları</option>
+                        <option value="t2-k5">5. Kelime İşlemci Dosyası Geliştirme</option>
+                        <option value="t2-k6">6. Sunum Programları</option>
+                        <option value="t2-k7">7. Sunum Dosyası Geliştirme</option>
                     </select>
                 </div>
 
                 <div id="tema2-content" class="mt-2 min-h-[120px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
-
-                    <!-- Konu 1 -->
+                    
                     <div id="t2-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-paintbrush text-pink-300 w-8 text-center"></i>
-                            <span class="text-sm">Görsel Düzenleme Arayüzü Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-image text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Piksel ve Çözünürlük İnfografiği</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Canva Kullanım Rehberi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Piksel ve Vektör Farkı</span></a>
                     </div>
-
-                    <!-- Konu 2 -->
                     <div id="t2-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-file-powerpoint text-orange-300 w-8 text-center"></i>
-                            <span class="text-sm">Dijital Afiş Tasarımı Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-image text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">Çevre Temalı Afiş Örneği</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-palette text-purple-400 w-8 text-center"></i><span class="text-sm">Tasarım İlkeleri (Görsel)</span></a>
                     </div>
-
-                    <!-- Konu 3 -->
                     <div id="t2-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-file-word text-blue-300 w-8 text-center"></i>
-                            <span class="text-sm">Kelime İşlemci Giriş Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-keyboard text-slate-200 w-8 text-center"></i>
-                            <span class="text-sm">Kendimi Tanıtıyorum Çalışma Kağıdı</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Örnek Afiş Çalışmaları</span></a>
                     </div>
-
-                    <!-- Konu 4 -->
                     <div id="t2-k4" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-list-ul text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Liste ve Madde İşaretleri Etkinliği</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-file-pdf text-red-300 w-8 text-center"></i>
-                            <span class="text-sm">Belge Kaydetme Kılavuzu (PDF)</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-word text-blue-400 w-8 text-center"></i><span class="text-sm">Word Arayüzü İnfografik</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Klavye Kısayolları Testi</span></a>
                     </div>
-
-                    <!-- Konu 5 -->
                     <div id="t2-k5" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-clapperboard text-purple-300 w-8 text-center"></i>
-                            <span class="text-sm">Sunum Programına Giriş Sunusu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-lines text-orange-400 w-8 text-center"></i><span class="text-sm">Örnek Dilekçe Taslağı</span></a>
                     </div>
-
-                    <!-- Konu 6 -->
                     <div id="t2-k6" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-display text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">5 Slaytlık Örnek Sunum</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Etkili Sunum Teknikleri</span></a>
+                    </div>
+                    <div id="t2-k7" class="content-panel">
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-download text-green-400 w-8 text-center"></i><span class="text-sm">Sunum Şablonu İndir</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Animasyon Ekleme Dersi</span></a>
                     </div>
                 </div>
             </div>
 
             <!-- 3. TEMA: Bilgisayar Ağları ve İletişim -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-emerald-500/30 transition duration-500">
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-green-500/30 transition duration-500">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold tracking-wide uppercase text-emerald-200 border border-emerald-400/40 px-2 py-1 rounded-full bg-emerald-400/10">Tema 3</span>
-                    <i class="fa-solid fa-network-wired text-emerald-300 text-2xl"></i>
+                    <span class="text-xs font-bold tracking-widest text-green-400 uppercase border border-green-400/20 px-2 py-1 rounded bg-green-400/5">Tema 3</span>
+                    <i class="fa-solid fa-globe text-green-300 text-2xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white mb-6">Bilgisayar Ağları ve İletişim</h2>
 
                 <div class="mb-4">
-                    <select onchange="showContent('tema3', this.value)" class="w-full px-3 py-2 rounded-lg bg-slate-900/90 text-slate-100 text-sm border border-slate-600 focus:outline-none">
+                    <select onchange="showContent('tema3', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
-                        <option value="t3-k1">1. Ağ Kavramı ve Bileşenler</option>
-                        <option value="t3-k2">2. Bağlanma Yöntemleri ve Ağ Türleri</option>
-                        <option value="t3-k3">3. İnternette Bilgi Arama ve Doğruluk</option>
+                        <option value="t3-k1">1. Bilgisayar Ağları ve Bileşenleri</option>
+                        <option value="t3-k2">2. Ağ Bağlantı Yöntemleri</option>
+                        <option value="t3-k3">3. İnternet ile Çalışma</option>
                     </select>
                 </div>
 
                 <div id="tema3-content" class="mt-2 min-h-[120px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
-
-                    <!-- Konu 1 -->
                     <div id="t3-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-diagram-project text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Bilgisayar Ağı Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-spider text-orange-300 w-8 text-center"></i>
-                            <span class="text-sm">Örümcek Ağı Benzetimi Çalışması</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-8 text-center"></i><span class="text-sm">Ağ Nedir? (Sunum)</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Modem/Router Görselleri</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Ağ Terimleri Testi</span></a>
                     </div>
-
-                    <!-- Konu 2 -->
                     <div id="t3-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-wifi text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">Kablolu vs Kablosuz Bağlantı Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-house-signal text-indigo-300 w-8 text-center"></i>
-                            <span class="text-sm">Ev ve Okul Ağı Şeması</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-wifi text-blue-400 w-8 text-center"></i><span class="text-sm">Wi-Fi ve Kablolu Bağlantı</span></a>
                     </div>
-
-                    <!-- Konu 3 -->
                     <div id="t3-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-magnifying-glass text-yellow-300 w-8 text-center"></i>
-                            <span class="text-sm">İnternette Bilgi Arama Rehberi</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-shield-halved text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Güvenilir Kaynak Kontrol Listesi</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-google text-orange-400 w-8 text-center"></i><span class="text-sm">Arama Motoru İpuçları</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-8 text-center"></i><span class="text-sm">Doğru Bilgiye Ulaşma Testi</span></a>
                     </div>
                 </div>
             </div>
 
             <!-- 4. TEMA: Bilişim Etiği ve Siber Güvenlik -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-amber-500/30 transition duration-500">
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-blue-500/30 transition duration-500">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold tracking-wide uppercase text-amber-200 border border-amber-400/40 px-2 py-1 rounded-full bg-amber-400/10">Tema 4</span>
-                    <i class="fa-solid fa-shield-halved text-amber-300 text-2xl"></i>
+                    <span class="text-xs font-bold tracking-widest text-blue-400 uppercase border border-blue-400/20 px-2 py-1 rounded bg-blue-400/5">Tema 4</span>
+                    <i class="fa-solid fa-shield-halved text-blue-300 text-2xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white mb-6">Bilişim Etiği ve Siber Güvenlik</h2>
 
                 <div class="mb-4">
-                    <select onchange="showContent('tema4', this.value)" class="w-full px-3 py-2 rounded-lg bg-slate-900/90 text-slate-100 text-sm border border-slate-600 focus:outline-none">
+                    <select onchange="showContent('tema4', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
-                        <option value="t4-k1">1. Bilişim Etiği</option>
-                        <option value="t4-k2">2. Siber Güvenlik ve Gizlilik</option>
+                        <option value="t4-k1">1. Bilişim Etiği Kural ve İlkeleri</option>
+                        <option value="t4-k2">2. Dijital Gizlilik ve Güvenlik</option>
                     </select>
                 </div>
 
                 <div id="tema4-content" class="mt-2 min-h-[120px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
-
-                    <!-- Konu 1 -->
                     <div id="t4-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-scale-balanced text-amber-300 w-8 text-center"></i>
-                            <span class="text-sm">Bilişim Etiği İlkeleri Sunusu</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-copyright text-fuchsia-300 w-8 text-center"></i>
-                            <span class="text-sm">Telif Hakkı ve Korsan Yazılım Afişi</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-gavel text-orange-400 w-8 text-center"></i><span class="text-sm">Etik Kurallar Listesi</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-8 text-center"></i><span class="text-sm">Siber Zorbalık Kamu Spotu</span></a>
                     </div>
-
-                    <!-- Konu 2 -->
                     <div id="t4-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-lock text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Güçlü Şifre Oluşturma Rehberi</span>
-                        </a>
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-triangle-exclamation text-red-300 w-8 text-center"></i>
-                            <span class="text-sm">Siber Tehditler ve Önlemler İnfografiği</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-lock text-red-400 w-8 text-center"></i><span class="text-sm">Güçlü Şifre Oluşturma</span></a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-8 text-center"></i><span class="text-sm">Kişisel Veri Nedir? (Afiş)</span></a>
                     </div>
                 </div>
             </div>
 
             <!-- 5. TEMA: Yapay Zekâ -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-purple-500/30 transition duration-500">
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-indigo-500/30 transition duration-500">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold tracking-wide uppercase text-purple-200 border border-purple-400/40 px-2 py-1 rounded-full bg-purple-400/10">Tema 5</span>
-                    <i class="fa-solid fa-robot text-purple-300 text-2xl"></i>
+                    <span class="text-xs font-bold tracking-widest text-indigo-400 uppercase border border-indigo-400/20 px-2 py-1 rounded bg-indigo-400/5">Tema 5</span>
+                    <i class="fa-solid fa-brain text-indigo-300 text-2xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white mb-6">Yapay Zekâ</h2>
 
                 <div class="mb-4">
-                    <select onchange="showContent('tema5', this.value)" class="w-full px-3 py-2 rounded-lg bg-slate-900/90 text-slate-100 text-sm border border-slate-600 focus:outline-none">
+                    <select onchange="showContent('tema5', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
-                        <option value="t5-k1">1. Yapay Zekâ Uygulamalarını Tanıma</option>
-                        <option value="t5-k2">2. Yapay Zekâ Nasıl Çalışır?</option>
-                        <option value="t5-k3">3. Yapay Zekâda Etik ve Güvenlik</option>
-                        <option value="t5-k4">4. Yapay Zekânın Değerlendirilmesi</option>
+                        <option value="t5-k1">1. Yapay Zekâ Uygulamaları</option>
+                        <option value="t5-k2">2. YZ'de Etik ve Güvenlik</option>
+                        <option value="t5-k3">3. YZ ile Model Geliştirme</option>
                     </select>
                 </div>
 
                 <div id="tema5-content" class="mt-2 min-h-[120px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
-
-                    <!-- Konu 1 -->
                     <div id="t5-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-robot text-purple-300 w-8 text-center"></i>
-                            <span class="text-sm">Yapay Zekâ Uygulamaları Sunusu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-robot text-indigo-400 w-8 text-center"></i><span class="text-sm">Yapay Zekâ Kullanım Alanları</span></a>
                     </div>
-
-                    <!-- Konu 2 -->
                     <div id="t5-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-diagram-project text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Veri → Model → Tahmin Akış Şeması</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-user-secret text-red-400 w-8 text-center"></i><span class="text-sm">Deepfake ve Riskler</span></a>
                     </div>
-
-                    <!-- Konu 3 -->
                     <div id="t5-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-scale-balanced text-amber-300 w-8 text-center"></i>
-                            <span class="text-sm">Yapay Zekâ ve Etik Sunusu</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 4 -->
-                    <div id="t5-k4" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-clipboard-check text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">Yapay Zekâ Uygulaması Değerlendirme Formu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-project-diagram text-orange-400 w-8 text-center"></i><span class="text-sm">Model Eğitimi Uygulaması</span></a>
                     </div>
                 </div>
             </div>
 
-            <!-- 6. TEMA: Yazılım Tasarımı ve Programlama -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-lime-500/30 transition duration-500">
+            <!-- 6. TEMA: Yazılım Tasarımı -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-yellow-500/30 transition duration-500">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold tracking-wide uppercase text-lime-200 border border-lime-400/40 px-2 py-1 rounded-full bg-lime-400/10">Tema 6</span>
-                    <i class="fa-solid fa-code text-lime-300 text-2xl"></i>
+                    <span class="text-xs font-bold tracking-widest text-yellow-400 uppercase border border-yellow-400/20 px-2 py-1 rounded bg-yellow-400/5">Tema 6</span>
+                    <i class="fa-solid fa-code text-yellow-300 text-2xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white mb-6">Yazılım Tasarımı ve Programlama</h2>
 
                 <div class="mb-4">
-                    <select onchange="showContent('tema6', this.value)" class="w-full px-3 py-2 rounded-lg bg-slate-900/90 text-slate-100 text-sm border border-slate-600 focus:outline-none">
+                    <select onchange="showContent('tema6', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Konu Başlığı Seçiniz...</option>
-                        <option value="t6-k1">1. Problem Çözme ve Algoritma Mantığı</option>
-                        <option value="t6-k2">2. Akış Şemaları</option>
-                        <option value="t6-k3">3. Algoritma Test Etme ve Hata Ayıklama</option>
-                        <option value="t6-k4">4. Blok Tabanlı Kodlamaya Giriş</option>
-                        <option value="t6-k5">5. Temel Bileşenler</option>
-                        <option value="t6-k6">6. Karar Yapıları ve Döngüler</option>
-                        <option value="t6-k7">7. Proje Planlama</option>
-                        <option value="t6-k8">8. Proje Tasarımı ve Kodlama 1</option>
-                        <option value="t6-k9">9. Proje Tasarımı ve Kodlama 2</option>
-                        <option value="t6-k10">10. Test Etme ve Hata Ayıklama</option>
-                        <option value="t6-k11">11. Proje Sunumu ve Değerlendirme</option>
-                        <option value="t6-k12">12. Yıl Sonu Değerlendirmesi</option>
+                        <option value="t6-k1">1. Algoritmik Düşünme</option>
+                        <option value="t6-k2">2. Test ve Hata Ayıklama</option>
+                        <option value="t6-k3">3. Yazılım Geliştirme Bileşenleri</option>
+                        <option value="t6-k4">4. Blok Tabanlı Yazılım Yönetimi</option>
                     </select>
                 </div>
 
                 <div id="tema6-content" class="mt-2 min-h-[120px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Henüz bir konu seçilmedi.</p>
-
-                    <!-- Konu 1 -->
                     <div id="t6-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-lightbulb text-amber-300 w-8 text-center"></i>
-                            <span class="text-sm">Günlük Hayatta Algoritma Örnekleri</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-project-diagram text-orange-400 w-8 text-center"></i><span class="text-sm">Akış Şemaları</span></a>
                     </div>
-
-                    <!-- Konu 2 -->
                     <div id="t6-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-diagram-project text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">Akış Şeması Sembolleri Sunusu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-bug text-red-400 w-8 text-center"></i><span class="text-sm">Hata Ayıklama Örnekleri</span></a>
                     </div>
-
-                    <!-- Konu 3 -->
                     <div id="t6-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-bug-slash text-red-300 w-8 text-center"></i>
-                            <span class="text-sm">Hata Ayıklama Etkinliği</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-cubes text-blue-400 w-8 text-center"></i><span class="text-sm">Değişkenler ve Döngüler</span></a>
                     </div>
-
-                    <!-- Konu 4 -->
                     <div id="t6-k4" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-laptop-code text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Scratch/mBlock Giriş Sunusu</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 5 -->
-                    <div id="t6-k5" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-square-root-variable text-indigo-300 w-8 text-center"></i>
-                            <span class="text-sm">Değişken ve Operatör Etkinliği</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 6 -->
-                    <div id="t6-k6" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-repeat text-lime-300 w-8 text-center"></i>
-                            <span class="text-sm">Döngülerle Oyun Tasarımı</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 7 -->
-                    <div id="t6-k7" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-pen-ruler text-fuchsia-300 w-8 text-center"></i>
-                            <span class="text-sm">Proje Planlama Formu</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 8 -->
-                    <div id="t6-k8" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-gamepad text-emerald-300 w-8 text-center"></i>
-                            <span class="text-sm">Oyun Tasarımı Kodlama 1</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 9 -->
-                    <div id="t6-k9" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-gamepad text-emerald-400 w-8 text-center"></i>
-                            <span class="text-sm">Oyun Tasarımı Kodlama 2</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 10 -->
-                    <div id="t6-k10" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-vial-circle-check text-sky-300 w-8 text-center"></i>
-                            <span class="text-sm">Proje Test ve Hata Ayıklama Listesi</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 11 -->
-                    <div id="t6-k11" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-person-chalkboard text-amber-300 w-8 text-center"></i>
-                            <span class="text-sm">Proje Sunum Ölçütleri</span>
-                        </a>
-                    </div>
-
-                    <!-- Konu 12 -->
-                    <div id="t6-k12" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link">
-                            <i class="fa-solid fa-trophy text-yellow-300 w-8 text-center"></i>
-                            <span class="text-sm">Yıl Sonu Değerlendirme Oyunu</span>
-                        </a>
+                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-puzzle-piece text-yellow-400 w-8 text-center"></i><span class="text-sm">Scratch ile Proje Yapımı</span></a>
                     </div>
                 </div>
             </div>
 
         </div>
+
     </main>
 
+    <!-- Footer -->
+    <footer class="glass-header mt-auto py-8 text-center text-gray-400 text-sm">
+        <p>&copy; 2024 Keskin Bilişim BTY. Geleceği Kodlayanların Adresi.</p>
+    </footer>
+
+    <!-- JavaScript - BASİTLEŞTİRİLMİŞ GARANTİ ÇÖZÜM -->
     <script>
         function showContent(temaId, konuId) {
             // İlgili tema kutusunu bul
@@ -697,7 +404,7 @@
             
             // "Henüz konu seçilmedi" yazısını gizle
             const placeholder = container.querySelector('p');
-            if (placeholder) placeholder.style.display = 'none';
+            if(placeholder) placeholder.style.display = 'none';
 
             // O temadaki tüm açık panelleri kapat
             const panels = container.querySelectorAll('.content-panel');
@@ -710,44 +417,6 @@
             if (selectedPanel) {
                 selectedPanel.classList.add('active');
             }
-        }
-
-        // Ortak önizleme açma fonksiyonu (Google Drive / YouTube / diğer)
-        function openPreview(frameId, wrapperId, url) {
-            const frame = document.getElementById(frameId);
-            const wrapper = document.getElementById(wrapperId);
-            if (!frame || !wrapper) return;
-
-            let finalUrl = url;
-
-            // Google Drive dosyaları için /preview kullan
-            if (url.includes('drive.google.com/file/d/')) {
-                try {
-                    const idPart = url.split('/d/')[1];
-                    const fileId = idPart.split('/')[0];
-                    finalUrl = 'https://drive.google.com/file/d/' + fileId + '/preview';
-                } catch (e) {
-                    finalUrl = url;
-                }
-            }
-            // YouTube bağlantıları için embed adresine çevir
-            else if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
-                try {
-                    if (url.includes('youtu.be/')) {
-                        const parts = url.split('youtu.be/')[1].split('?')[0];
-                        finalUrl = 'https://www.youtube.com/embed/' + parts;
-                    } else {
-                        const urlObj = new URL(url);
-                        const v = urlObj.searchParams.get('v');
-                        finalUrl = 'https://www.youtube.com/embed/' + v;
-                    }
-                } catch (e) {
-                    finalUrl = url;
-                }
-            }
-
-            frame.src = finalUrl;
-            wrapper.classList.remove('hidden');
         }
     </script>
 

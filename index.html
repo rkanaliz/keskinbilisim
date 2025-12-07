@@ -19,6 +19,7 @@
                     },
                     animation: {
                         'blob': 'blob 7s infinite',
+                        'fade-in': 'fadeIn 1s ease-out',
                     },
                     keyframes: {
                         blob: {
@@ -26,6 +27,10 @@
                             '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
                             '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
                             '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
                         }
                     }
                 }
@@ -33,7 +38,6 @@
         }
     </script>
     <style>
-        /* Glassmorphism Stilleri */
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -47,38 +51,74 @@
             transform: translateY(-5px);
             border-color: rgba(255, 255, 255, 0.3);
         }
-        
         .glass-header {
-            background: rgba(17, 24, 39, 0.8); /* Koyu header */
+            background: rgba(17, 24, 39, 0.85);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+        body { background-color: #111827; color: #e2e8f0; }
 
-        /* Arka Plan */
-        body {
-            background-color: #111827; /* Koyu lacivert zemin */
-            color: #e2e8f0;
-        }
-
-        /* Mobil Menü Geçişi */
-        #mobile-menu {
-            transition: max-height 0.3s ease-in-out;
-            max-height: 0;
+        /* Slider Stilleri */
+        .slider-container {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
             overflow: hidden;
         }
-        #mobile-menu.open {
-            max-height: 400px;
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 24, 39, 0.6);
+        }
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Kart Görsel Efekti */
+        .card-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 12rem; /* h-48 */
+            background-color: #1f2937; /* Yüklenmezse gri arka plan */
+        }
+        .card-image-container img {
+            transition: transform 0.5s ease;
+        }
+        .glass-card:hover .card-image-container img {
+            transform: scale(1.1);
+        }
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(17, 24, 39, 1), transparent);
         }
     </style>
 </head>
-<body class="min-h-screen relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
-
-    <!-- ARKA PLAN EFEKTLERİ (Liquid Blobs) -->
-    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
-        <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-900 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-    </div>
+<body class="relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
 
     <!-- Navbar -->
     <nav class="glass-header fixed w-full z-50 transition-all duration-300">
@@ -90,170 +130,252 @@
                         <span class="font-bold text-xl tracking-wider text-gray-100">Keskin<span class="text-pink-400">Bilişim</span>BTY</span>
                     </a>
                 </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
+                <!-- Menü -->
+                <div class="hidden md:flex items-center space-x-6">
                     <a href="index.html" class="text-pink-400 font-bold border-b-2 border-pink-400 pb-1">Anasayfa</a>
                     <a href="5-sinif.html" class="text-gray-300 hover:text-white hover:scale-105 transition">5. Sınıf</a>
                     <a href="6-sinif.html" class="text-gray-300 hover:text-white hover:scale-105 transition">6. Sınıf</a>
                     <a href="yapay-zeka.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Yapay Zekâ</a>
-                    <a href="#" class="text-gray-300 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
+                    <a href="robotik.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
                     <a href="evraklar.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Evraklar</a>
-                    <a href="#" class="bg-pink-600 hover:bg-pink-500 text-white px-5 py-2 rounded-full transition shadow-lg shadow-pink-500/30">İletişim</a>
                 </div>
-
-                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none"><i class="fa-solid fa-bars text-2xl"></i></button>
                 </div>
             </div>
         </div>
-
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="md:hidden glass-header border-t border-gray-700">
+        <!-- Mobil Menü -->
+        <div id="mobile-menu" class="hidden glass-header border-t border-gray-700">
             <a href="index.html" class="block py-3 px-4 text-pink-400 font-medium">Anasayfa</a>
-            <a href="5-sinif.html" class="block py-3 px-4 text-gray-300 hover:bg-white/5 hover:text-white transition">5. Sınıf BTY</a>
-            <a href="6-sinif.html" class="block py-3 px-4 text-gray-300 hover:bg-white/5 hover:text-white transition">6. Sınıf BTY</a>
-            <a href="#" class="block py-3 px-4 text-gray-300 hover:bg-white/5 hover:text-white transition">Yapay Zekâ</a>
-            <a href="#" class="block py-3 px-4 text-gray-300 hover:bg-white/5 hover:text-white transition">İletişim</a>
-            <a href="ogretmen.html" class="bg-pink-600 hover:bg-pink-500 text-white px-5 py-2 rounded-full transition shadow-lg shadow-pink-500/30">
-    Öğretmen Paneli
-</a>
+            <a href="5-sinif.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">5. Sınıf BTY</a>
+            <a href="6-sinif.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">6. Sınıf BTY</a>
+            <a href="yapay-zeka.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Yapay Zekâ</a>
+            <a href="robotik.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Robotik Kodlama</a>
+            <a href="evraklar.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Evraklar</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="h-screen flex items-center justify-center text-center px-4 pt-16 relative">
-        <!-- Dekoratif Arka Plan İkonları -->
-        <i class="fa-solid fa-code absolute top-32 left-10 text-white/5 text-8xl animate-pulse"></i>
-        <i class="fa-solid fa-rocket absolute bottom-20 right-10 text-white/5 text-8xl animate-pulse delay-1000"></i>
+    <!-- HERO SLIDER -->
+    <header class="slider-container">
+        <!-- Slide 1: Kodlama ve Eğitim (Güncellendi) -->
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            <div class="slide-content px-4">
+                <div class="max-w-4xl mx-auto animate-fade-in">
+                    <div class="inline-block bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1 rounded-full text-sm font-semibold mb-6 text-pink-300">
+                        🚀 Geleceği Kodlayanların Adresi
+                    </div>
+                    <h1 class="text-4xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
+                        Teknolojiyi Tüketen Değil <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Üreten Nesil</span>
+                    </h1>
+                    <p class="text-lg md:text-xl mb-10 text-gray-200 max-w-2xl mx-auto">
+                        BTY dersi materyalleri, sınav notları ve proje ödevleri tek bir çatı altında.
+                    </p>
+                    <a href="#content-blocks" class="bg-pink-600 hover:bg-pink-500 text-white font-bold py-4 px-10 rounded-full transition transform hover:scale-105 shadow-lg shadow-pink-500/40">
+                        Keşfetmeye Başla
+                    </a>
+                </div>
+            </div>
+        </div>
 
-        <div class="max-w-4xl mx-auto relative z-10">
-            <div class="inline-block bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1 rounded-full text-sm font-semibold mb-6 text-pink-300">
-                🚀 Teknolojiyle Üreten Nesiller
+        <!-- Slide 2: Robotik ve YZ (Güncellendi) -->
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            <div class="slide-content px-4">
+                <div class="max-w-4xl mx-auto animate-fade-in">
+                    <div class="inline-block bg-blue-500/30 backdrop-blur-sm border border-blue-400/30 px-4 py-1 rounded-full text-sm font-semibold mb-6 text-blue-200">
+                        🤖 Robotik Kodlama ve Yapay Zekâ Uygulamaları
+                    </div>
+                    <h1 class="text-4xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
+                        Kodla, İnşa Et <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Geleceği Tasarla</span>
+                    </h1>
+                    <p class="text-lg md:text-xl mb-10 text-gray-200 max-w-2xl mx-auto">
+                        Arduino, mBlock ve yapay zeka araçlarıyla hayallerini gerçeğe dönüştür.
+                    </p>
+                    <a href="robotik.html" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-full transition transform hover:scale-105 shadow-lg shadow-blue-500/40">
+                        Atölyeye Gir
+                    </a>
+                </div>
             </div>
-            <h1 class="text-4xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
-                Geleceği Kodlayanların <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400">Buluşma Noktası</span>
-            </h1>
-            <p class="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
-                Keskin Bilişim BTY ile ders notlarına hızla ulaş, yapay zekânın sınırlarını keşfet ve kendi oyunlarını tasarla. Teknolojiyi sadece tüketen değil, üreten bir dijital kaşif ol!
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#content-blocks" class="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-4 px-8 rounded-full transition transform hover:scale-105 shadow-lg shadow-purple-500/30">
-                    Hemen Keşfetmeye Başla
-                </a>
-                <a href="#" class="glass-card hover:bg-white/10 text-white font-bold py-4 px-8 rounded-full transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-play"></i> Tanıtım Videosu
-                </a>
-            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-0 w-full flex justify-center space-x-3 z-20">
+            <button onclick="changeSlide(0)" class="slider-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition"></button>
+            <button onclick="changeSlide(1)" class="slider-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition"></button>
         </div>
     </header>
 
-    <!-- Main Content Blocks -->
-    <section id="content-blocks" class="py-20 px-4">
+    <!-- KARTLAR (GRID ALANI) -->
+    <section id="content-blocks" class="py-20 px-4 bg-gray-900 relative">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+             <div class="absolute top-1/4 left-0 w-96 h-96 bg-pink-900/30 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
+             <div class="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-900/30 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
+        </div>
+
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Neler Yapabilirsin?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Eğitim İçerikleri</h2>
                 <div class="h-1 w-24 bg-gradient-to-r from-pink-500 to-purple-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- Blok 1: Ders Materyalleri -->
+                <!-- 1. KART: Ders Zili -->
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col group">
-                    <div class="h-48 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-cyan-900/50 group-hover:scale-110 transition duration-700"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="fa-solid fa-book-open text-6xl text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"></i>
+                    <div class="card-image-container bg-gray-800">
+                        <!-- Güvenli Görsel -->
+                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Dersler" class="w-full h-full object-cover opacity-80"
+                             onerror="this.src='https://placehold.co/800x600/1f2937/FFFFFF?text=Ders+Materyalleri'">
+                        <div class="image-overlay"></div>
+                        <div class="absolute bottom-4 left-6">
+                             <div class="flex items-center text-cyan-300 mb-1">
+                                <i class="fa-solid fa-book-open mr-2"></i> <span class="text-xs font-bold uppercase tracking-wider">Müfredat</span>
+                             </div>
+                             <h3 class="text-xl font-bold text-white">BTY Ders Notları</h3>
                         </div>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
-                            <span class="bg-cyan-500/20 text-cyan-400 p-2 rounded-lg mr-3 text-lg"><i class="fa-solid fa-bell"></i></span>
-                            Ders Zili Çaldı
-                        </h3>
-                        <p class="text-gray-400 mb-6 flex-1 text-sm">
-                            5. ve 6. sınıf Bilişim Teknolojileri dersi için ihtiyacın olan konu özetleri, sınav provaları ve eğlenceli çalışma kağıtları elinin altında.
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 mb-6 text-sm">
+                            5. ve 6. sınıf Bilişim Teknolojileri dersi için ihtiyacın olan konu özetleri, sınav provaları ve çalışma kağıtları elinin altında.
                         </p>
-                        
-                        <!-- YENİ BUTON YAPISI: 5 ve 6 Yan Yana -->
-                        <div class="flex gap-4">
-                            <a href="5-sinif.html" class="flex-1 text-center border border-cyan-500/30 text-cyan-300 font-bold py-3 rounded-xl hover:bg-cyan-500 hover:text-white transition duration-300">
-                                5. Sınıf
+                        <div class="flex gap-3 mt-auto">
+                            <a href="5-sinif.html" class="flex-1 text-center border border-pink-500/30 text-pink-300 text-sm font-bold py-2 rounded-lg hover:bg-pink-600 hover:text-white transition duration-300">5. Sınıf</a>
+                            <a href="6-sinif.html" class="flex-1 text-center border border-teal-500/30 text-teal-300 text-sm font-bold py-2 rounded-lg hover:bg-teal-500 hover:text-white transition duration-300">6. Sınıf</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. KART: Robotik Kodlama -->
+                <div class="glass-card rounded-3xl overflow-hidden flex flex-col group">
+                    <div class="card-image-container bg-gray-800">
+                        <!-- Güvenli Görsel -->
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Robotik" class="w-full h-full object-cover opacity-80"
+                             onerror="this.src='https://placehold.co/800x600/1f2937/FFFFFF?text=Robotik+Kodlama'">
+                        <div class="image-overlay"></div>
+                        <div class="absolute bottom-4 left-6">
+                             <div class="flex items-center text-blue-300 mb-1">
+                                <i class="fa-solid fa-microchip mr-2"></i> <span class="text-xs font-bold uppercase tracking-wider">Seçmeli Ders</span>
+                             </div>
+                             <h3 class="text-xl font-bold text-white">Robotik & Yapay Zekâ</h3>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 mb-6 text-sm">
+                            Robotik Kodlama ve Yapay Zekâ Uygulamaları dersi için Arduino, sensörler ve elektronik devre projeleri.
+                        </p>
+                        <!-- GÜNCELLENEN ALAN: İKİLİ BUTON YAPISI -->
+                        <div class="flex gap-3 mt-auto">
+                            <a href="robotik.html" class="flex-1 text-center border border-blue-500/30 text-blue-300 text-sm font-bold py-2 rounded-lg hover:bg-blue-600 hover:text-white transition duration-300">
+                                Robotik
                             </a>
-                            <a href="6-sinif.html" class="flex-1 text-center border border-teal-500/30 text-teal-300 font-bold py-3 rounded-xl hover:bg-teal-500 hover:text-white transition duration-300">
-                                6. Sınıf
+                            <a href="yapay-zeka.html" class="flex-1 text-center border border-indigo-500/30 text-indigo-300 text-sm font-bold py-2 rounded-lg hover:bg-indigo-600 hover:text-white transition duration-300">
+                                Yapay Zekâ
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Blok 2: Yapay Zekâ -->
+                <!-- 3. KART: Yapay Zekâ Atölyesi -->
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col group">
-                    <div class="h-48 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50 group-hover:scale-110 transition duration-700"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="fa-solid fa-robot text-6xl text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,0.5)]"></i>
+                    <div class="card-image-container bg-gray-800">
+                        <!-- Güvenli Görsel -->
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Yapay Zeka" class="w-full h-full object-cover opacity-80"
+                             onerror="this.src='https://placehold.co/800x600/1f2937/FFFFFF?text=Yapay+Zeka'">
+                        <div class="image-overlay"></div>
+                        <div class="absolute bottom-4 left-6">
+                             <div class="flex items-center text-purple-300 mb-1">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> <span class="text-xs font-bold uppercase tracking-wider">Atölye</span>
+                             </div>
+                             <h3 class="text-xl font-bold text-white">Yapay Zekâ Dünyası</h3>
                         </div>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
-                            <span class="bg-purple-500/20 text-purple-400 p-2 rounded-lg mr-3 text-lg"><i class="fa-solid fa-brain"></i></span>
-                            Yapay Zekâ Dünyası
-                        </h3>
-                        <p class="text-gray-400 mb-6 flex-1 text-sm">
-                            Geleceğin teknolojisini yönetmeyi öğrenmelisin. Merak uyandıran yapay zekâ araçlarını dene ve kendi promptlarınla dijital sanat eserleri yarat.
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 mb-6 text-sm">
+                            Google AI deneyleri, çizim botları ve makine öğrenmesi araçlarını keşfet. Sadece oku geçme, dene!
                         </p>
-                        <a href="#" class="w-full block text-center border border-purple-500/30 text-purple-300 font-bold py-3 rounded-xl hover:bg-purple-500 hover:text-white transition duration-300">
-                            Atölyeye Gir <i class="fa-solid fa-wand-magic-sparkles ml-2"></i>
+                        <a href="yapay-zeka.html" class="w-full block text-center border border-purple-500/30 text-purple-300 text-sm font-bold py-2 rounded-lg hover:bg-purple-600 hover:text-white transition duration-300 mt-auto">
+                            Araçları Dene
                         </a>
                     </div>
                 </div>
 
-                <!-- Blok 3: Sanal Sergi -->
+                <!-- 4. KART: Sanal Sergi -->
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col group">
-                    <div class="h-48 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-900/50 to-yellow-900/50 group-hover:scale-110 transition duration-700"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="fa-solid fa-trophy text-6xl text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]"></i>
+                    <div class="card-image-container bg-gray-800">
+                        <!-- Güvenli Görsel -->
+                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Sergi" class="w-full h-full object-cover opacity-80"
+                             onerror="this.src='https://placehold.co/800x600/1f2937/FFFFFF?text=Sanal+Sergi'">
+                        <div class="image-overlay"></div>
+                        <div class="absolute bottom-4 left-6">
+                             <div class="flex items-center text-yellow-300 mb-1">
+                                <i class="fa-solid fa-trophy mr-2"></i> <span class="text-xs font-bold uppercase tracking-wider">Galeri</span>
+                             </div>
+                             <h3 class="text-xl font-bold text-white">Ayın Kodlayıcıları</h3>
                         </div>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
-                            <span class="bg-yellow-500/20 text-yellow-400 p-2 rounded-lg mr-3 text-lg"><i class="fa-solid fa-star"></i></span>
-                            Ayın Kodlayıcıları
-                        </h3>
-                        <p class="text-gray-400 mb-6 flex-1 text-sm">
-                            Kod bloklarını birleştirip harikalar yaratan arkadaşlarını alkışlıyoruz! En yaratıcı Scratch oyunları ve Tinkercad tasarımları burada sergileniyor.
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 mb-6 text-sm">
+                            Öğrencilerimizin en yaratıcı Scratch oyunları ve Tinkercad tasarımları burada sergileniyor.
                         </p>
-                        <a href="#" class="w-full block text-center border border-yellow-500/30 text-yellow-300 font-bold py-3 rounded-xl hover:bg-yellow-500 hover:text-white transition duration-300">
-                            Projeleri Gör <i class="fa-solid fa-eye ml-2"></i>
+                        <a href="#" class="w-full block text-center border border-yellow-500/30 text-yellow-300 text-sm font-bold py-2 rounded-lg hover:bg-yellow-600 hover:text-white transition duration-300 mt-auto">
+                            Projeleri Gör
                         </a>
                     </div>
                 </div>
 
-                <!-- Blok 4: Hakkımda -->
+                <!-- 5. KART: Evraklar (Öğretmen Dosyası) -->
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col group">
-                    <div class="h-48 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-green-900/50 to-teal-900/50 group-hover:scale-110 transition duration-700"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="fa-solid fa-chalkboard-user text-6xl text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]"></i>
+                    <div class="card-image-container bg-gray-800">
+                        <!-- Güvenli Görsel -->
+                        <img src="https://images.unsplash.com/photo-1555601568-c916f54b1046?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Evraklar" class="w-full h-full object-cover opacity-80"
+                             onerror="this.src='https://placehold.co/800x600/1f2937/FFFFFF?text=Ogretmen+Dosyasi'">
+                        <div class="image-overlay"></div>
+                        <div class="absolute bottom-4 left-6">
+                             <div class="flex items-center text-indigo-300 mb-1">
+                                <i class="fa-solid fa-folder-open mr-2"></i> <span class="text-xs font-bold uppercase tracking-wider">İdari</span>
+                             </div>
+                             <h3 class="text-xl font-bold text-white">Öğretmen Dosyası</h3>
                         </div>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
-                            <span class="bg-teal-500/20 text-teal-400 p-2 rounded-lg mr-3 text-lg"><i class="fa-solid fa-id-card"></i></span>
-                            Hakkımda & Vizyon
-                        </h3>
-                        <p class="text-gray-400 mb-6 flex-1 text-sm">
-                            Teknolojiyi bir oyuncak değil, sorun çözen bir süper güç olarak görüyoruz. Bilişim Teknolojileri dersinde neler hedeflediğimizi yakından tanı.
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 mb-6 text-sm">
+                            Yıllık planlar, zümre tutanakları, YOS evrakları ve ders içi değerlendirme ölçekleri.
                         </p>
-                        <a href="#" class="w-full block text-center border border-teal-500/30 text-teal-300 font-bold py-3 rounded-xl hover:bg-teal-500 hover:text-white transition duration-300">
-                            Öğretmeni Tanı <i class="fa-solid fa-user ml-2"></i>
+                        <a href="evraklar.html" class="w-full block text-center border border-indigo-500/30 text-indigo-300 text-sm font-bold py-2 rounded-lg hover:bg-indigo-600 hover:text-white transition duration-300 mt-auto">
+                            Evraklara Git
                         </a>
+                    </div>
+                </div>
+
+                 <!-- 6. KART: İletişim -->
+                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col group">
+                    <div class="card-image-container bg-gray-800">
+                        <!-- Güvenli Görsel -->
+                        <img src="https://images.unsplash.com/photo-1587560699334-cc4da63c2449?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="İletişim" class="w-full h-full object-cover opacity-80"
+                             onerror="this.src='https://placehold.co/800x600/1f2937/FFFFFF?text=Iletisim'">
+                        <div class="image-overlay"></div>
+                        <div class="absolute bottom-4 left-6">
+                             <div class="flex items-center text-green-300 mb-1">
+                                <i class="fa-solid fa-envelope mr-2"></i> <span class="text-xs font-bold uppercase tracking-wider">Bize Ulaşın</span>
+                             </div>
+                             <h3 class="text-xl font-bold text-white">İletişim</h3>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 mb-6 text-sm">
+                            Soruların mı var? Bize sosyal medyadan veya e-posta yoluyla her zaman ulaşabilirsin.
+                        </p>
+                        <div class="flex justify-center space-x-4 mt-auto">
+                            <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fa-solid fa-envelope"></i></a>
+                        </div>
                     </div>
                 </div>
 
@@ -264,25 +386,31 @@
     <!-- Mini Footer -->
     <section class="py-12 border-t border-white/10 glass-header">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h3 class="text-2xl font-bold text-white mb-4">Soruların mı var?</h3>
-            <p class="text-gray-400 mb-8">Derste anlamadığın konular veya proje fikirlerin için bana her zaman ulaşabilirsin.</p>
-            <div class="flex justify-center space-x-6 mb-8">
-                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition duration-300"><i class="fa-brands fa-instagram text-xl"></i></a>
-                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition duration-300"><i class="fa-brands fa-youtube text-xl"></i></a>
-                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition duration-300"><i class="fa-solid fa-envelope text-xl"></i></a>
-            </div>
-            <p class="text-sm text-gray-500">&copy; 2024 Keskin Bilişim BTY. Tüm hakları saklıdır. Eğitim amaçlı tasarlanmıştır.</p>
+            <p class="text-sm text-gray-500">&copy; 2024 Keskin Bilişim BTY. Tüm hakları saklıdır.</p>
         </div>
     </section>
 
     <script>
-        // Mobil Menü Aç/Kapa
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('open');
-        });
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+
+        function changeSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.replace('bg-white', 'bg-white/50'));
+            
+            currentSlide = index;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.replace('bg-white/50', 'bg-white');
+        }
+
+        setInterval(() => { changeSlide(currentSlide + 1); }, 5000);
     </script>
 </body>
 </html>

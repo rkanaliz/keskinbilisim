@@ -77,6 +77,7 @@
             border-radius: 8px;
             transition: all 0.2s;
             color: #cbd5e1;
+            cursor: pointer;
         }
         .doc-link:hover {
             background: rgba(255, 255, 255, 0.1);
@@ -107,13 +108,13 @@
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="index.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Anasayfa</a>
-                     <a href="5-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">5. Sınıf</a>
+                    <a href="5-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">5. Sınıf</a>
                     <a href="6-sinif.html" class="text-gray-400 hover:text-white hover:scale-105 transition">6. Sınıf</a>
                     <a href="yapay-zeka.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Yapay Zekâ</a>
-                    <a href="robotik.html" class="text-gray-300 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
-                     <a href="evraklar.html" class="text-blue-400 font-bold border-b-2 border-blue-400 pb-1">Evraklar</a>
+                    <a href="robotik.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Robotik Kodlama</a>
+                    <!-- AKTİF SAYFA -->
+                    <a href="evraklar.html" class="text-blue-400 font-bold border-b-2 border-blue-400 pb-1">Evraklar</a>
                     <a href="iletisim.html" class="bg-pink-600 hover:bg-pink-500 text-white px-5 py-2 rounded-full transition shadow-lg shadow-pink-500/30">İletişim</a>
-                </div>
                 </div>
             </div>
         </div>
@@ -166,24 +167,24 @@
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     
                     <div id="k1-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-blue-500 w-6 mr-2"></i>
-                            <span class="text-sm">5. Sınıf Yıllık Planı İndir</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <span class="text-sm">5. Sınıf Yıllık Planı (Önizle)</span>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k1-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-blue-500 w-6 mr-2"></i>
-                            <span class="text-sm">6. Sınıf Yıllık Planı İndir</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <span class="text-sm">6. Sınıf Yıllık Planı (Önizle)</span>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k1-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-pdf text-red-500 w-6 mr-2"></i>
-                            <span class="text-sm">Öğretim Programı İndir</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <span class="text-sm">Öğretim Programı (Önizle)</span>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
@@ -210,24 +211,24 @@
                 <div id="kart2-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k2-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-lines text-purple-400 w-6 mr-2"></i>
                             <span class="text-sm">Sene Başı Zümre Tutanağı</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k2-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-lines text-purple-400 w-6 mr-2"></i>
                             <span class="text-sm">2. Dönem Zümre Tutanağı</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k2-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-lines text-purple-400 w-6 mr-2"></i>
                             <span class="text-sm">Sene Sonu Zümre Tutanağı</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
@@ -254,24 +255,24 @@
                 <div id="kart3-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k3-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-table text-green-500 w-6 mr-2"></i>
                             <span class="text-sm">Katılım Ölçeği (Excel)</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k3-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-pdf text-red-500 w-6 mr-2"></i>
                             <span class="text-sm">Rubrik (PDF)</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k3-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-blue-500 w-6 mr-2"></i>
                             <span class="text-sm">Proje Formu (Word)</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
@@ -298,24 +299,24 @@
                 <div id="kart4-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k4-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-folder-open text-yellow-500 w-6 mr-2"></i>
                             <span class="text-sm">Kulüp Yıllık Planı</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k4-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-lines text-yellow-500 w-6 mr-2"></i>
                             <span class="text-sm">Öğrenci Listesi</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k4-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-blue-500 w-6 mr-2"></i>
                             <span class="text-sm">Faaliyet Raporu</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
@@ -342,24 +343,24 @@
                 <div id="kart5-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k5-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-pdf text-red-500 w-6 mr-2"></i>
                             <span class="text-sm">Talimat Dosyası</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k5-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-blue-500 w-6 mr-2"></i>
                             <span class="text-sm">Arıza Tutanağı</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k5-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-excel text-green-500 w-6 mr-2"></i>
                             <span class="text-sm">Zimmet Dosyası</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
@@ -386,30 +387,30 @@
                 <div id="kart6-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k6-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-folder-tree text-teal-500 w-6 mr-2"></i>
                             <span class="text-sm">DYK Planı İndir</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k6-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-microchip text-teal-500 w-6 mr-2"></i>
                             <span class="text-sm">Egzersiz Planı İndir</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k6-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-blue-500 w-6 mr-2"></i>
                             <span class="text-sm">Yoklama Listesi</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- 7. KART: Günlük Planlar (YENİ) -->
+            <!-- 7. KART: Günlük Planlar -->
             <div class="glass-card rounded-2xl p-6 flex flex-col">
                 <div class="flex items-center mb-4 border-b border-white/10 pb-4">
                     <div class="p-3 bg-indigo-500/20 rounded-lg mr-4">
@@ -430,30 +431,30 @@
                 <div id="kart7-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k7-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-folder text-indigo-500 w-6 mr-2"></i>
                             <span class="text-sm">5. Sınıf Tüm Haftalar (RAR)</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k7-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-folder text-indigo-500 w-6 mr-2"></i>
                             <span class="text-sm">6. Sınıf Tüm Haftalar (RAR)</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k7-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-word text-indigo-500 w-6 mr-2"></i>
                             <span class="text-sm">Kurs Günlük Plan Şablonu</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- 8. KART: YOS Evrakları (YENİ) -->
+            <!-- 8. KART: YOS Evrakları -->
             <div class="glass-card rounded-2xl p-6 flex flex-col">
                 <div class="flex items-center mb-4 border-b border-white/10 pb-4">
                     <div class="p-3 bg-pink-500/20 rounded-lg mr-4">
@@ -474,24 +475,24 @@
                 <div id="kart8-content" class="mt-2 min-h-[80px]">
                     <p class="text-gray-500 text-sm italic text-center py-4 opacity-50">Dosya indirmek için seçim yapınız.</p>
                     <div id="k8-d1" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-calendar-check text-pink-500 w-6 mr-2"></i>
                             <span class="text-sm">Sınav Takvimi</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k8-d2" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-signature text-pink-500 w-6 mr-2"></i>
                             <span class="text-sm">Başvuru Dilekçesi</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                     <div id="k8-d3" class="content-panel">
-                        <a href="#" target="_blank" class="doc-link">
+                        <a href="#" onclick="openSlide('#'); return false;" class="doc-link">
                             <i class="fa-solid fa-file-contract text-pink-500 w-6 mr-2"></i>
                             <span class="text-sm">Toplantı Tutanağı</span>
-                            <i class="fa-solid fa-download ml-auto text-xs opacity-50"></i>
+                            <i class="fa-solid fa-eye ml-auto text-xs opacity-50"></i>
                         </a>
                     </div>
                 </div>
@@ -505,6 +506,29 @@
     <footer class="glass-header mt-auto py-8 text-center text-gray-400 text-sm">
         <p>&copy; 2025 Keskin Bilişim BTY. Eğitim Amaçlı Tasarlanmıştır.</p>
     </footer>
+
+    <!-- SUNUM PENCERESİ (Modal) - TAM EKRAN (GÜNCELLENDİ) -->
+    <div id="presentation-modal" class="fixed inset-0 z-[100] hidden">
+        <!-- İçerik Kutusu (Tam Ekran) -->
+        <div id="modal-content" class="relative w-full h-full bg-black flex flex-col">
+            
+            <!-- Kontrol Butonları (Sağ Üst) -->
+            <div class="absolute top-4 right-4 z-50 flex gap-2">
+                <!-- Tam Ekran Butonu -->
+                <button onclick="toggleFullScreen()" class="bg-gray-700 hover:bg-gray-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110" title="Tam Ekran Yap">
+                    <i id="fullscreen-icon" class="fa-solid fa-expand text-xl"></i>
+                </button>
+
+                <!-- Kapat Butonu -->
+                <button onclick="closeSlide()" class="bg-red-600 hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110" title="Kapat">
+                    <i class="fa-solid fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Iframe (Sunum Burada Açılacak) -->
+            <iframe id="slide-frame" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
 
     <!-- JavaScript -->
     <script>
@@ -527,6 +551,68 @@
                 selectedPanel.classList.add('active');
             }
         }
+
+        // Sunum Modalı Açma/Kapama - GÜNCELLENDİ (YouTube ve Drive için)
+        function openSlide(url) {
+            let embedLink = url;
+
+            // YouTube Linki Kontrolü (embed formatına çevir)
+            if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                const videoId = url.split('v=')[1] ? url.split('v=')[1].split('&')[0] : url.split('/').pop().split('?')[0];
+                embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            } 
+            // Google Drive Linki Kontrolü (preview formatına çevir)
+            else if (url.includes("drive.google.com")) {
+                embedLink = url.replace('/view?usp=sharing', '/preview').replace('/view', '/preview');
+            }
+
+            document.getElementById('slide-frame').src = embedLink;
+            document.getElementById('presentation-modal').classList.remove('hidden');
+        }
+
+        function closeSlide() {
+            // Eğer tam ekrandaysa çık
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            document.getElementById('presentation-modal').classList.add('hidden');
+            document.getElementById('slide-frame').src = "";
+        }
+
+        // Tam Ekran Yap/Çık Fonksiyonu
+        function toggleFullScreen() {
+            const elem = document.getElementById("modal-content");
+            const icon = document.getElementById("fullscreen-icon");
+
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) { /* Safari */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+                icon.classList.remove("fa-expand");
+                icon.classList.add("fa-compress");
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
+                icon.classList.remove("fa-compress");
+                icon.classList.add("fa-expand");
+            }
+        }
+        
+        // ESC tuşu ile kapatma
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeSlide();
+            }
+        });
     </script>
 
 </body>

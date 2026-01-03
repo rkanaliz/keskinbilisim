@@ -53,15 +53,19 @@
             border: 1px solid #1e3a8a;
         }
         
+        /* GARANTİLİ GÖSTERİM MANTIĞI */
         .content-panel {
-            display: none;
+            display: none; /* Varsayılan gizli */
             flex-direction: column;
             gap: 0.5rem;
-            animation: fadeIn 0.4s ease-in-out;
         }
+        
+        /* 'active' sınıfı eklenince GÖRÜNÜR OLACAK */
         .content-panel.active {
-            display: flex;
+            display: flex !important;
+            animation: fadeIn 0.5s ease-in-out;
         }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -75,6 +79,7 @@
             border: 1px solid rgba(59, 130, 246, 0.1);
             border-radius: 0.5rem;
             transition: all 0.2s;
+            cursor: pointer;
         }
         .resource-link:hover {
             background: rgba(59, 130, 246, 0.15);
@@ -110,19 +115,8 @@
                     <!-- AKTİF SAYFA -->
                     <a href="robotik.html" class="text-blue-400 font-bold border-b-2 border-blue-400 pb-1">Robotik Kodlama</a>
                     <a href="evraklar.html" class="text-gray-400 hover:text-white hover:scale-105 transition">Evraklar</a>
-                    <a href="iletisim.html" class="bg-pink-600 hover:bg-pink-500 text-white px-5 py-2 rounded-full transition shadow-lg shadow-pink-500/30">İletişim</a>
                 </div>
             </div>
-        </div>
-        <!-- Mobil Menü -->
-        <div id="mobile-menu" class="hidden glass-header border-t border-gray-700">
-            <a href="index.html" class="block py-3 px-4 text-pink-400 font-medium">Anasayfa</a>
-            <a href="5-sinif.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">5. Sınıf BTY</a>
-            <a href="6-sinif.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">6. Sınıf BTY</a>
-            <a href="yapay-zeka.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Yapay Zekâ</a>
-            <a href="robotik.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Robotik Kodlama</a>
-            <a href="evraklar.html" class="block py-3 px-4 text-gray-300 hover:text-white transition">Evraklar</a>
-            <a href="iletisim.html" class="block py-3 px-4 bg-pink-600 hover:bg-pink-500 text-white text-center rounded-b-lg transition">İletişim</a>
         </div>
     </nav>
 
@@ -165,38 +159,38 @@
                     
                     <!-- RK.1.1: Robotik Kavramına Giriş -->
                     <div id="m1-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Robotik Nedir? (Sunu)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Robotik ve Günlük Yaşam (İnfografik)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kavram Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Robotik Tarihçesi (Video)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-file-powerpoint text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Robotik Nedir? (Sunu)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Robotik ve Günlük Yaşam (İnfografik)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kavram Testi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Robotik Tarihçesi (Video)</span></a>
                     </div>
                     <!-- RK.1.2: Kodlamaya Giriş -->
                     <div id="m1-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-project-diagram text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Algoritma ve Akış Şeması (Sunu)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-code text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Döngü ve Karar Yapıları</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Algoritma Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Türleri ve Değişkenler</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-project-diagram text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Algoritma ve Akış Şeması (Sunu)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-code text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Döngü ve Karar Yapıları</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Algoritma Testi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Veri Türleri ve Değişkenler</span></a>
                     </div>
                     <!-- RK.1.3: Robotik Kodlama Ortamları -->
                     <div id="m1-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-download text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">mBlock/Tinkercad Kurulumu</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-laptop-code text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Blok Tabanlı Arayüz Tanıtımı</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kodlama Ortamı Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Simülasyon Araçları Videosu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-download text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">mBlock/Tinkercad Kurulumu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-laptop-code text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Blok Tabanlı Arayüz Tanıtımı</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kodlama Ortamı Testi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Simülasyon Araçları Videosu</span></a>
                     </div>
                     <!-- RK.1.4: Robotik Kodlama Uygulamalarına Ait Bileşenler -->
                     <div id="m1-k4" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-microchip text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Devre Elemanları ve Sensörler</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Giriş-Çıkış Birimleri Afişi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Bileşenler Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Sensör Bağlantıları Videosu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-microchip text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Devre Elemanları ve Sensörler</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-image text-purple-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Giriş-Çıkış Birimleri Afişi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Bileşenler Testi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Sensör Bağlantıları Videosu</span></a>
                     </div>
                     <!-- RK.1.5: Farklı Ortamlarda Robotik Devre Tasarımı -->
                     <div id="m1-k5" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-link text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Tinkercad ile Devre Tasarımı</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-code text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">7 Segment Display Kodları</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Devre Tasarım Testi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Fiziksel Devre Kurulumu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-link text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Tinkercad ile Devre Tasarımı</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-file-code text-orange-400 w-6"></i><span class="text-sm ml-2 text-gray-200">7 Segment Display Kodları</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-clipboard-question text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Devre Tasarım Testi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Fiziksel Devre Kurulumu</span></a>
                     </div>
                 </div>
             </div>
@@ -212,9 +206,9 @@
                 <div class="mb-4">
                     <select onchange="showContent('modul2', this.value)" class="w-full p-3 rounded-lg cursor-pointer hover:bg-slate-800 transition shadow-inner">
                         <option value="" selected disabled>Proje Seviyesi Seçiniz...</option>
-                        <option value="m2-k1">1. Giriş Düzeyi Robotik Uygulamaları</option>
-                        <option value="m2-k2">2. Orta Düzey Robotik Uygulamaları</option>
-                        <option value="m2-k3">3. İleri Düzey Robotik Uygulamaları</option>
+                        <option value="m2-k1">1. Giriş Düzeyi Projeler</option>
+                        <option value="m2-k2">2. Orta Düzey Projeler</option>
+                        <option value="m2-k3">3. İleri Düzey Projeler</option>
                     </select>
                 </div>
 
@@ -223,24 +217,24 @@
                     
                     <!-- RK.2.1: Giriş Düzeyi Robotik Uygulamaları -->
                     <div id="m2-k1" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-lightbulb text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">LED Uygulaması (Yakıp Söndürme)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-fan text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Motor Uygulaması (DC Motor)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-code text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Giriş Düzeyi Kodları (.sb3)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Proje Yapım Videosu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-lightbulb text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">LED Uygulaması (Yakıp Söndürme)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-fan text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Motor Uygulaması (DC Motor)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-file-code text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Giriş Düzeyi Kodları (.sb3)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Proje Yapım Videosu</span></a>
                     </div>
                     <!-- RK.2.2: Orta Düzey Robotik Uygulamaları -->
                     <div id="m2-k2" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-road text-gray-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Çizgi Takip Uygulaması</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-home text-indigo-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Akıllı Aydınlatma (LDR)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-temperature-half text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Isı Kontrollü Havalandırma</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Orta Düzey Proje Videosu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-road text-gray-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Çizgi Takip Uygulaması</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-home text-indigo-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Akıllı Aydınlatma (LDR)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-temperature-half text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Isı Kontrollü Havalandırma</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Orta Düzey Proje Videosu</span></a>
                     </div>
                     <!-- RK.2.3: İleri Düzey Robotik Uygulamaları -->
                     <div id="m2-k3" class="content-panel">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-traffic-light text-red-500 w-6"></i><span class="text-sm ml-2 text-gray-200">Trafik Işığı Uygulaması (LCD Panel)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-car-side text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Çarpışma Önleyici (Ultrasonik Sensör)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-code text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">İleri Düzey Kodlar (.ino)</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">İleri Düzey Proje Videosu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-traffic-light text-red-500 w-6"></i><span class="text-sm ml-2 text-gray-200">Trafik Işığı Uygulaması (LCD Panel)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-car-side text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Çarpışma Önleyici (Ultrasonik Sensör)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-file-code text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">İleri Düzey Kodlar (.ino)</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">İleri Düzey Proje Videosu</span></a>
                     </div>
                 </div>
             </div>
@@ -266,16 +260,16 @@
                     <div class="md:col-span-2"><p class="text-gray-500 text-sm italic text-center py-4 opacity-50">İçerik için uygulama seçiniz.</p></div>
                     
                     <div id="m3-k1" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-camera text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kamera ile Renk Tanıma</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Teachable Machine Entegrasyonu</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-camera text-blue-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Kamera ile Renk Tanıma</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-brands fa-youtube text-red-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Teachable Machine Entegrasyonu</span></a>
                     </div>
                     <div id="m3-k2" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-microphone text-pink-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Ses Tanıma Eklentisi Kullanımı</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-code text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Sesli Lamba Projesi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-microphone text-pink-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Ses Tanıma Eklentisi Kullanımı</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-file-code text-yellow-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Sesli Lamba Projesi</span></a>
                     </div>
                     <div id="m3-k3" class="content-panel md:col-span-2">
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-robot text-indigo-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Atık Ayrıştırma Robotu Projesi</span></a>
-                        <a href="#" target="_blank" class="resource-link"><i class="fa-solid fa-file-pdf text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Makine Öğrenmesi Modeli</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-robot text-indigo-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Atık Ayrıştırma Robotu Projesi</span></a>
+                        <a href="#" onclick="openSlide('#'); return false;" class="resource-link"><i class="fa-solid fa-file-pdf text-green-400 w-6"></i><span class="text-sm ml-2 text-gray-200">Makine Öğrenmesi Modeli</span></a>
                     </div>
                 </div>
             </div>
@@ -289,8 +283,32 @@
         <p>&copy; 2025 Keskin Bilişim BTY. Geleceği Kodlayanların Adresi.</p>
     </footer>
 
+    <!-- SUNUM PENCERESİ (Modal) - TAM EKRAN (GÜNCELLENDİ) -->
+    <div id="presentation-modal" class="fixed inset-0 z-[100] hidden">
+        <!-- İçerik Kutusu (Tam Ekran) -->
+        <div id="modal-content" class="relative w-full h-full bg-black flex flex-col">
+            
+            <!-- Kontrol Butonları (Sağ Üst) -->
+            <div class="absolute top-4 right-4 z-50 flex gap-2">
+                <!-- Tam Ekran Butonu -->
+                <button onclick="toggleFullScreen()" class="bg-gray-700 hover:bg-gray-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110" title="Tam Ekran Yap">
+                    <i id="fullscreen-icon" class="fa-solid fa-expand text-xl"></i>
+                </button>
+
+                <!-- Kapat Butonu -->
+                <button onclick="closeSlide()" class="bg-red-600 hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110" title="Kapat">
+                    <i class="fa-solid fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Iframe (Sunum Burada Açılacak) -->
+            <iframe id="slide-frame" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
+        // Dropdown İçerik Gösterme
         function showContent(moduleId, topicId) {
             const container = document.getElementById(moduleId + '-content');
             const placeholder = container.querySelector('p');
@@ -307,6 +325,68 @@
                 selectedPanel.classList.add('active');
             }
         }
+
+        // Sunum Modalı Açma/Kapama
+        function openSlide(url) {
+            let embedLink = url;
+
+            // YouTube Linki Kontrolü
+            if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                const videoId = url.split('v=')[1] ? url.split('v=')[1].split('&')[0] : url.split('/').pop().split('?')[0];
+                embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            } 
+            // Google Drive Linki Kontrolü
+            else if (url.includes("drive.google.com")) {
+                embedLink = url.replace('/view?usp=sharing', '/preview').replace('/view', '/preview');
+            }
+
+            document.getElementById('slide-frame').src = embedLink;
+            document.getElementById('presentation-modal').classList.remove('hidden');
+        }
+
+        function closeSlide() {
+            // Eğer tam ekrandaysa çık
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            document.getElementById('presentation-modal').classList.add('hidden');
+            document.getElementById('slide-frame').src = "";
+        }
+
+        // Tam Ekran Yap/Çık Fonksiyonu
+        function toggleFullScreen() {
+            const elem = document.getElementById("modal-content");
+            const icon = document.getElementById("fullscreen-icon");
+
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) { /* Safari */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+                icon.classList.remove("fa-expand");
+                icon.classList.add("fa-compress");
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
+                icon.classList.remove("fa-compress");
+                icon.classList.add("fa-expand");
+            }
+        }
+        
+        // ESC tuşu ile kapatma
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeSlide();
+            }
+        });
     </script>
 
 </body>

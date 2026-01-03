@@ -444,11 +444,20 @@
     <!-- SUNUM PENCERESİ (Modal) - TAM EKRAN (GÜNCELLENDİ) -->
     <div id="presentation-modal" class="fixed inset-0 z-[100] hidden">
         <!-- İçerik Kutusu (Tam Ekran) -->
-        <div class="relative w-full h-full bg-black flex flex-col">
-            <!-- Kapat Butonu -->
-            <button onclick="closeSlide()" class="absolute top-4 right-4 z-50 bg-red-600 hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110">
-                <i class="fa-solid fa-times text-2xl"></i>
-            </button>
+        <div id="modal-content" class="relative w-full h-full bg-black flex flex-col">
+            
+            <!-- Kontrol Butonları (Sağ Üst) -->
+            <div class="absolute top-4 right-4 z-50 flex gap-2">
+                <!-- Tam Ekran Butonu -->
+                <button onclick="toggleFullScreen()" class="bg-gray-700 hover:bg-gray-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110" title="Tam Ekran Yap">
+                    <i id="fullscreen-icon" class="fa-solid fa-expand text-xl"></i>
+                </button>
+
+                <!-- Kapat Butonu -->
+                <button onclick="closeSlide()" class="bg-red-600 hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg hover:scale-110" title="Kapat">
+                    <i class="fa-solid fa-times text-2xl"></i>
+                </button>
+            </div>
 
             <!-- Iframe (Sunum Burada Açılacak) -->
             <iframe id="slide-frame" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
@@ -475,16 +484,16 @@
             }
         }
 
-        // Sunum Modalı Açma/Kapama - GÜNCELLENDİ (YouTube ve Drive için)
+        // Sunum Modalı Açma/Kapama
         function openSlide(url) {
             let embedLink = url;
 
-            // YouTube Linki Kontrolü (embed formatına çevir)
+            // YouTube Linki Kontrolü
             if (url.includes("youtube.com") || url.includes("youtu.be")) {
                 const videoId = url.split('v=')[1] ? url.split('v=')[1].split('&')[0] : url.split('/').pop().split('?')[0];
                 embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             } 
-            // Google Drive Linki Kontrolü (preview formatına çevir)
+            // Google Drive Linki Kontrolü
             else if (url.includes("drive.google.com")) {
                 embedLink = url.replace('/view?usp=sharing', '/preview').replace('/view', '/preview');
             }
@@ -494,8 +503,40 @@
         }
 
         function closeSlide() {
+            // Eğer tam ekrandaysa çık
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
             document.getElementById('presentation-modal').classList.add('hidden');
             document.getElementById('slide-frame').src = "";
+        }
+
+        // Tam Ekran Yap/Çık Fonksiyonu
+        function toggleFullScreen() {
+            const elem = document.getElementById("modal-content");
+            const icon = document.getElementById("fullscreen-icon");
+
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) { /* Safari */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+                icon.classList.remove("fa-expand");
+                icon.classList.add("fa-compress");
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
+                icon.classList.remove("fa-compress");
+                icon.classList.add("fa-expand");
+            }
         }
         
         // ESC tuşu ile kapatma
